@@ -3,6 +3,7 @@
 ## Dependencies
 
 node 12.x
+
 react 16.x
 
 ## Installation
@@ -28,6 +29,14 @@ class Example extends Component {
   }
 }
 ```
+
+## Demo
+
+https://codesandbox.io/embed/github/torava/react-asterisk-table/tree/master/
+
+## Documentation
+
+https://vuqh4.sse.codesandbox.io/out/
 
 ## License
 
