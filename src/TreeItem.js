@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import '../css/TreeItem.css';
 
 /**
+ * AsteriskTable component that renders item's row, columns and possible children or child view.
+ * If data is flat supposes children to be resolved in resolveItems.
+ * If data is nested finds children from children key prop field.
+ * 
  * @class
  */
 class TreeItem extends Component {

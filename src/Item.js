@@ -1,7 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-export default class Item extends Component {
+/**
+ * AsteriskTable component that renders item row and its columns
+ * 
+ * @class
+ */
+class Item extends Component {
   constructor(props) {
     super(props);
   }
@@ -57,3 +62,5 @@ Item.propTypes = {
   columns: PropTypes.array,
   getContent: PropTypes.func
 };
+
+export default Item;

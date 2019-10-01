@@ -1,6 +1,11 @@
 import React from 'react';
 
-export default function renderColumns(props) {
+/**
+ * AsteriskTable function that renders columns to thead
+ * 
+ * @param {object} props 
+ */
+function renderColumns(props) {
   let cols = props.columns.map(column => (
                                       <col key={'col-'+column.id}
                                            style={column.style}/>
@@ -23,3 +28,5 @@ export default function renderColumns(props) {
     </thead>
   ];
 }
+
+export default renderColumns;

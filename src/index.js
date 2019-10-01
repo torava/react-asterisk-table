@@ -6,6 +6,8 @@ import _ from 'lodash';
 import '../css/index.css';
 
 /**
+ * Extendable React table component
+ * 
  * @class
  */
 class AsteriskTable extends Component {
