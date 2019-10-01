@@ -1,0 +1,10 @@
+.asterisk-table .column-order {
+  font-size: 0.5em;
+  vertical-align: middle;
+}
+.asterisk-table .asc:after {
+  content: '\25B2';
+}
+.asterisk-table .desc:after {
+  content: '\25BC';
+}

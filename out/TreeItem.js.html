@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: TreeItem.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: TreeItem.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import '../css/TreeItem.css';
+
+/**
+ * @class
+ */
+class TreeItem extends Component {
+  constructor(props) {
+    super(props);
+  }
+  /**
+   * Appends renderable columns to tds parameter from columns parameter
+   * 
+   * @param {array} columns 
+   * @param {array} tds 
+   */
+  renderColumns(columns, tds) {
+    let content,
+        key,
+        columnHasChildren,
+        child;
+    
+    if (columns &amp;&amp; columns.length) {
+      return columns.map((column, i) => {
+        columnHasChildren = column.columns &amp;&amp; column.columns.length;
+        content = this.props.getContent(this.props.item, column);
+
+        key = 'td-row-'+this.props.item.id+'-column-'+column.id;
+
+        if (i == 0) {
+          // if item has children, show expandable arrow in first column
+          if (this.props.childView &amp;&amp; typeof this.props.childView === 'function' || this.itemHasChildren) {
+            child = &lt;a href="#"
+                       onClick={event => this.props.toggleChildren(event, this.props.item.id)}
+                       className={'expand '+(this.props.expanded_items[this.props.item.id] ? 'expanded' : 'closed')}>
+                    &lt;/a>;
+          }
+          // else show blank column
+          else {
+            child = &lt;span className="expand">&amp;nbsp;&lt;/span>;
+          }
+        }
+        else {
+          child = false;
+        }
+
+        if (child) {
+          tds.push(&lt;td key={key}
+            className={column.class}>
+              &lt;div style={{paddingLeft: this.props.depth+'em'}}>
+                {child}
+                {content}
+              &lt;/div>
+          &lt;/td>);
+        }
+        else {
+          tds.push(&lt;td className={(columnHasChildren ? 'parent-column': '')+(column.class ? ' '+column.class : '')}
+                       key={key}
+                       style={columnHasChildren ? {display:'none'} : {}}>
+                       {content}
+                  &lt;/td>);
+        }
+
+        if (columnHasChildren) {
+          this.renderColumns(column.columns, tds);
+        }
+      });
+    }
+  }
+
+  render() {
+    if (!this.props.flat) {
+      this.itemHasChildren = this.props.children_key &amp;&amp; this.props.item[this.props.children_key] &amp;&amp; this.props.item[this.props.children_key].length;
+    }
+    else {
+      this.itemHasChildren = this.props.items.find(item => item.parent_id === this.props.item.id);
+    }
+    
+    let tds = [];
+
+    this.renderColumns(this.props.columns, tds);
+
+    let row = (
+      &lt;tr key={'tr-row-'+this.props.item.id}
+          id={this.props.item.id}
+          data-parent={this.props.parent}
+          className={this.props.className}>
+        {tds}
+      &lt;/tr>
+    );
+
+    if (this.props.expanded_items[this.props.item.id] &amp;&amp; this.itemHasChildren) {
+      let children;
+      let renderable_children = [];
+      if (!this.props.flat &amp;&amp; this.props.children_key) {
+        children = this.props.item[this.props.children_key];
+      }
+      else {
+        children = this.props.items;
+      }
+      if (this.props.resolveItems) {
+        children = this.props.resolveItems(children, this.props.item);
+      }
+
+      if (children &amp;&amp; children.length) {
+        renderable_children = children.map((item, index) => {
+          if (this.props.filter &amp;&amp; !this.props.filter(item)) return true;
+
+          return &lt;TreeItem
+                      {...this.props}
+                      key={item.id}
+                      index={index}
+                      parent={this.props.item.id}
+                      className={(this.props.className ? this.props.className+' ' : '')+this.props.item.id}
+                      item={item}
+                      depth={this.props.depth+1}
+                    />;
+        });
+      }
+      return [row].concat(renderable_children);
+    }
+    else if (this.props.expanded_items[this.props.item.id] &amp;&amp; this.props.childView) {
+      return [
+        row, 
+        (&lt;tr key={'child-view-'+this.props.item.id}
+             id={'child-view-'+this.props.item.id}
+             className="child-view">
+          &lt;td colSpan={this.props.columns.length}>
+            {this.props.childView(this.props.item)}
+          &lt;/td>
+        &lt;/tr>)
+      ];
+    }
+    else {
+      return row;
+    }
+  }
+}
+
+TreeItem.propTypes = {
+  item: PropTypes.object,
+  items: PropTypes.array,
+  flat: PropTypes.bool,
+  children_key: PropTypes.string,
+  expanded_items: PropTypes.object,
+  parent: PropTypes.object,
+  columns: PropTypes.array,
+  className: PropTypes.string,
+  childView: PropTypes.func,
+  getContent: PropTypes.func,
+  toggleChildren: PropTypes.func,
+  filter: PropTypes.func,
+  resolveItems: PropTypes.func,
+  depth: PropTypes.number
+};
+
+export default TreeItem;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AsteriskTable.html">AsteriskTable</a></li><li><a href="Sortable.html">Sortable</a></li><li><a href="Tree.html">Tree</a></li><li><a href="TreeItem.html">TreeItem</a></li></ul><h3>Global</h3><ul><li><a href="global.html#renderColumns">renderColumns</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Tue Oct 01 2019 23:26:23 GMT+0300 (Eastern European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

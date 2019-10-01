@@ -1,0 +1,15 @@
+.asterisk-table .expand {
+  text-decoration: none;
+  color: inherit;
+  width: 1em;
+  display: inline-block;
+}
+.asterisk-table .expanded:after {
+  content: '\25BE';
+}
+.asterisk-table .closed:after {
+  content: '\25B8';
+}
+.asterisk-table .child-view > td {
+  padding: 0;
+}

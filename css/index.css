@@ -1,0 +1,18 @@
+.asterisk-table,
+.asterisk-table th,
+.asterisk-table td {
+  border-width: 1px 0;
+  border-style: solid;
+  border-color: silver;
+  padding: 0.2em;
+}
+.asterisk-table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+  border-width: 1px;
+}
+.asterisk-table th {
+  border-width: 1px 0 2px 0;
+  text-align: left;
+}
