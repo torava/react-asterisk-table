@@ -6,7 +6,7 @@ export default function tree(WrappedComponent) {
   /**
    * AsteriskTable HOC component for formatting nested data to a tree view.
    * Takes flat data with parent id defined in key from parent_id_key prop when flat prop is true.
-   * Additionally, parent object can be defined in parent_key to speedup adding children from O(n) to O(1).
+   * Additionally, parent object can be defined in parent_key to speedup recursiv expanding.
    * Takes nested data with children listed in key from children_key prop when flat prop is false.
    * 
    * @class
@@ -44,25 +44,6 @@ export default function tree(WrappedComponent) {
      */
     resolveItems(items, parent) {
       return this.props.flat ? items.filter(item => (!parent && !item[this.props.parent_id_key]) || (parent && item[this.props.parent_id_key] === parent.id)) : items;
-    }
-    nestItems(items) {
-      let nestable_items = JSON.parse(JSON.stringify(items));
-      if (this.props.flat) {
-        let parent;
-        nestable_items = nestable_items.filter(item => {
-          if (Object.prototype.hasOwnProperty.call(item, 'parent_id') && typeof item.parent_id !== 'undefined' && item.parent_id !== null && item.parent_id !== false) {
-            parent = nestable_items.find(i => i.id === item.parent_id);
-            if (parent) {
-              if (!parent.children) {
-                parent.children = [];
-              }
-              parent.children.push(item);
-            }
-          }
-          return !item.parent_id;
-        });
-      }
-      return nestable_items;
     }
     /**
      * Checks if all children are expanded for toggle all children button state
@@ -195,7 +176,7 @@ export default function tree(WrappedComponent) {
         this.props.columns[0].label = [<a key={'toggle-all-children'}
                                         href="#"
                                         onClick={event => this.toggleAllChildren(event)}
-                                        className={'expand '+(this.state.children_status ? 'expanded' : 'closed')}>
+                                        className={'expand no-action '+(this.state.children_status ? 'expanded' : 'closed')}>
                                       </a>, this.original_expandable_label];
       }
 
