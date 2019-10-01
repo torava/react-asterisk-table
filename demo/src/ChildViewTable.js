@@ -206,12 +206,12 @@ export default class FlatTreeDemo extends Component {
         }
       },
       {
-        id: 'joined',
-        label: 'Joined',
-        formatter: (value, item) => (this.state.editing_field !== item.id+'-joined' ? <div onClick={() => this.editField(item, 'joined')}>{value ? value.toLocaleString() : '\u00A0'}</div> :
-                                     <input id={item.id+'-joined'}
+        id: 'recruited_on',
+        label: 'Recruited on',
+        formatter: (value, item) => (this.state.editing_field !== item.id+'-recruited_on' ? <div onClick={() => this.editField(item, 'recruited_on')}>{value ? value.toLocaleString() : '\u00A0'}</div> :
+                                     <input id={item.id+'-recruited_on'}
                                             type="datetime-local"
-                                            onBlur={event => this.handleDateSave(new Date(event.target.value), 'joined', item)}
+                                            onBlur={event => this.handleDateSave(new Date(event.target.value), 'recruited_on', item)}
                                             defaultValue={value && value.toISOString().substr(0, 19)}/>)
       },
       {

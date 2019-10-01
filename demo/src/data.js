@@ -23,7 +23,7 @@ export function generateFlatTreeItems() {
       parent_id: parent && parent.id,
       first_name: _.sample(first_names),
       last_name: _.sample(last_names),
-      joined: new Date(new Date(2000, 0, 0).getTime()+Math.random()*(new Date().getTime()-new Date(2000, 0, 0).getTime()))
+      recruited_on: new Date(new Date(2000, 0, 0).getTime()+Math.random()*(new Date().getTime()-new Date(2000, 0, 0).getTime()))
     });
     return items[items.length-1];
   };
