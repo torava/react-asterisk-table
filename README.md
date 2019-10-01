@@ -1,5 +1,14 @@
 # React * Table
 
+react-asterisk-table is an extensible React component. See examples in the demo from the link below.
+
+## Features
+
+- Sortable
+- Tree view
+- Child view
+- Support for HOCs
+
 ## Dependencies
 
 node 12.x
@@ -13,6 +22,7 @@ react 16.x
 ## Usage
 
 ```javascript
+import React, {Component} from 'react';
 import AsteriskTable from 'react-asterisk-table';
 
 class Example extends Component {
