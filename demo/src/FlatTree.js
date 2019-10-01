@@ -169,6 +169,7 @@ export default class FlatTreeDemo extends Component {
       },
       {
         id: 'actions',
+        sortable: false,
         label: <a href="#" onClick={event => this.addItem(event)}>Add</a>,
         formatter: (value, item) => <div>
                                       <a href="#" onClick={event => this.addChild(event, item.id)}>Add</a>&nbsp;

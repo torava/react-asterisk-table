@@ -29,6 +29,7 @@ export default class FlatTreeDemo extends Component {
     this.addChild = this.addChild.bind(this);
     this.editField = this.editField.bind(this);
     this.handleFieldSave = this.handleFieldSave.bind(this);
+    this.handleDateSave = this.handleDateSave.bind(this);
     this.handleParentChange = this.handleParentChange.bind(this);
 
     this.addChildViewItem = this.addChildViewItem.bind(this);
@@ -88,6 +89,15 @@ export default class FlatTreeDemo extends Component {
     _.set(item, field, value);
 
     this.setState({items, editing_field: null});
+  }
+  handleDateSave(value, field, current_item) {
+    // Validate date input before save
+    if (value instanceof Date && !isNaN(value)) {
+      this.handleFieldSave(value, field, current_item);
+    }
+    else {
+      this.setState({editing_field: null});
+    }
   }
   editField(item, field) {
     this.setState({editing_field: item.id+'-'+field}, () => {
@@ -198,14 +208,15 @@ export default class FlatTreeDemo extends Component {
       {
         id: 'joined',
         label: 'Joined',
-        formatter: (value, item) => (this.state.editing_field !== item.id+'-joined' ? <div onClick={() => this.editField(item, 'joined')}>{value.toLocaleString()}</div> :
+        formatter: (value, item) => (this.state.editing_field !== item.id+'-joined' ? <div onClick={() => this.editField(item, 'joined')}>{value ? value.toLocaleString() : '\u00A0'}</div> :
                                      <input id={item.id+'-joined'}
                                             type="datetime-local"
-                                            onBlur={event => this.handleFieldSave(new Date(event.target.value), 'joined', item)}
-                                            defaultValue={value.toISOString().substr(0, 19)}/>)
+                                            onBlur={event => this.handleDateSave(new Date(event.target.value), 'joined', item)}
+                                            defaultValue={value && value.toISOString().substr(0, 19)}/>)
       },
       {
         id: 'actions',
+        sortable: false,
         label: <a href="#" onClick={event => this.addItem(event)}>Add</a>,
         formatter: (value, item) => <div>
                                       <a href="#" onClick={event => this.addChild(event, item.id)}>Add</a>&nbsp;
@@ -219,6 +230,7 @@ export default class FlatTreeDemo extends Component {
       {
         id: 'name',
         label: 'Name',
+        sortable: false,
         formatter: (value, item) => <div contentEditable
                                          suppressContentEditableWarning
                                          onKeyPress={event => this.handleFieldChange(event, value)}
@@ -236,6 +248,7 @@ export default class FlatTreeDemo extends Component {
       },
       {
         id: 'actions',
+        sortable: false,
         label: <a href="#" onClick={event => this.addChildViewItem(event, parent)}>Add</a>,
         formatter: (value, item) => <div>
                                       <a href="#" onClick={event => this.removeChildViewItem(event, item.id, parent)}>Remove</a>
