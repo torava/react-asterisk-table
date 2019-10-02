@@ -30,6 +30,6 @@ it('can render test data', () => {
   });
   const trs = container.querySelectorAll('tr');
   const tds = container.querySelectorAll('td');
-  expect(tds[0].textContent).toBe('First name');
   expect(trs.length).toBe(2);
+  expect(tds[0].textContent).toBe('First name');
 });
