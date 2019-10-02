@@ -1,6 +1,6 @@
 {
   "name": "react-asterisk-table",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "react-asterisk-table React component",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -23,11 +23,13 @@
     "react": "16.x"
   },
   "dependencies": {
-    "react-dom": "16.x",
-    "react-router-dom": "5.x",
-    "uniqid": "5.x",
+    "lodash": "4.x",
     "prop-types": "15.x",
-    "lodash": "4.x"
+    "react-dom": "16.x",
+    "react-redux": "^7.1.1",
+    "react-router-dom": "5.x",
+    "redux": "^4.0.4",
+    "uniqid": "5.x"
   },
   "devDependencies": {
     "eslint": "^6.5.0",
