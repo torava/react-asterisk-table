@@ -6,6 +6,7 @@ import uniqid from 'uniqid';
 import AsteriskTable from '../../src';
 import sortable from '../../src/Sortable';
 import tree from '../../src/TreeTable';
+import PropTypes from 'prop-types';
 import { generateFlatTreeItems } from './data';
 
 const TreeTable = sortable(tree(AsteriskTable));
@@ -191,7 +192,7 @@ class TableDemo extends Component {
         label: 'Boss',
         property: item => {
           let parent = item.parent;
-          return parent && parent.first_name && parent.last_name && (parent.first_name+' '+parent.last_name) || '';
+          return parent && parent.first_name && parent.last_name && (parent.first_name+' '+parent.last_name) || '';
         },
         formatter: (value, item) => {
           return (
@@ -261,6 +262,13 @@ const mapDispatchToProps = dispatch => {
     updateItem: (id, fields) => dispatch(actions.updateItem(id, fields)),
     removeItem: id => dispatch(actions.removeItem(id))
   };
+};
+
+TableDemo.propTypes = {
+  items: PropTypes.array,
+  addItem: PropTypes.func,
+  updateItem: PropTypes.func,
+  removeItem: PropTypes.func
 };
 
 const ConnectedTableDemo = connect(

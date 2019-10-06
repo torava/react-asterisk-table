@@ -40,19 +40,22 @@ export default class FlatTreeDemo extends Component {
     event && event.preventDefault();
 
     let items = [...this.state.items];
-    items.push({
+    
+    items.unshift({
       id: uniqid()
     });
+
     this.setState({items});
   }
-  addChild(event, id) {
+  addChild(event, parent) {
     event && event.preventDefault();
 
     let items = [...this.state.items];
 
-    items.push({
+    items.unshift({
       id: uniqid(),
-      parent_id: id
+      parent_id: parent.id,
+      parent: parent
     });
 
     this.setState({items});
@@ -219,7 +222,7 @@ export default class FlatTreeDemo extends Component {
         sortable: false,
         label: <a href="#" onClick={event => this.addItem(event)}>Add</a>,
         formatter: (value, item) => <div>
-                                      <a href="#" onClick={event => this.addChild(event, item.id)}>Add</a>&nbsp;
+                                      <a href="#" onClick={event => this.addChild(event, item)}>Add</a>&nbsp;
                                       <a href="#" onClick={event => this.removeItem(event, item.id)}>Remove</a>
                                     </div>
       }

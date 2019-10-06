@@ -48,19 +48,21 @@ export default class NestedTreeDemo extends Component {
     });
     this.setState({items});
   }
-  addChild(event, id) {
+  addChild(event, parent) {
     event && event.preventDefault();
 
     let items = [...this.state.items];
-    let original_item = this.findItem(items, id);
+    let original_item = this.findItem(items, parent.id);
     if (!original_item.children) {
       original_item.children = [];
     }
     original_item.children.push({
-      id: uniqid()
+      id: uniqid(),
+      parent_id: parent.id,
+      parent
     });
 
-    this.table_ref.current.expandChildren(id);
+    this.table_ref.current.getRef().current.expandChildren(parent.id);
 
     this.setState({items});
   }
@@ -129,7 +131,7 @@ export default class NestedTreeDemo extends Component {
         sortable: false,
         label: <a href="#" onClick={event => this.addItem(event)}>Add</a>,
         formatter: (value, item) => <div>
-                                      <a href="#" onClick={event => this.addChild(event, item.id)}>Add</a>&nbsp;
+                                      <a href="#" onClick={event => this.addChild(event, item)}>Add</a>&nbsp;
                                       <a href="#" onClick={event => this.removeItem(event, item.id)}>Remove</a>
                                     </div>
       }

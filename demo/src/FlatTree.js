@@ -33,17 +33,18 @@ export default class FlatTreeDemo extends Component {
     });
     this.setState({items});
   }
-  addChild(event, id) {
+  addChild(event, parent) {
     event && event.preventDefault();
 
     let items = [...this.state.items];
 
     items.push({
       id: uniqid(),
-      parent_id: id
+      parent_id: parent.id,
+      parent
     });
 
-    this.table_ref.current.getRef().current.expandChildren(id);
+    this.table_ref.current.getRef().current.expandChildren(parent.id);
 
     this.setState({items});
   }
@@ -79,6 +80,15 @@ export default class FlatTreeDemo extends Component {
     _.set(item, field, value);
 
     this.setState({items, editing_field: null});
+  }
+  handleDateSave(value, field, current_item) {
+    // Validate date input before save
+    if (value instanceof Date && !isNaN(value)) {
+      this.handleFieldSave(value, field, current_item);
+    }
+    else {
+      this.setState({editing_field: null});
+    }
   }
   editField(item, field) {
     this.setState({editing_field: item.id+'-'+field}, () => {
@@ -161,18 +171,18 @@ export default class FlatTreeDemo extends Component {
       {
         id: 'recruited_on',
         label: 'Recruited on',
-        formatter: (value, item) => (this.state.editing_field !== item.id+'-recruited_on' ? <div onClick={() => this.editField(item, 'recruited_on')}>{value.toLocaleString()}</div> :
+        formatter: (value, item) => (this.state.editing_field !== item.id+'-recruited_on' ? <div onClick={() => this.editField(item, 'recruited_on')}>{value ? value.toLocaleString() : '\u00A0'}</div> :
                                      <input id={item.id+'-recruited_on'}
                                             type="datetime-local"
-                                            onBlur={event => this.handleFieldSave(new Date(event.target.value), 'recruited_on', item)}
-                                            defaultValue={value.toISOString().substr(0, 19)}/>)
+                                            onBlur={event => this.handleDateSave(new Date(event.target.value), 'recruited_on', item)}
+                                            defaultValue={value && value.toISOString().substr(0, 19)}/>)
       },
       {
         id: 'actions',
         sortable: false,
         label: <a href="#" onClick={event => this.addItem(event)}>Add</a>,
         formatter: (value, item) => <div>
-                                      <a href="#" onClick={event => this.addChild(event, item.id)}>Add</a>&nbsp;
+                                      <a href="#" onClick={event => this.addChild(event, item)}>Add</a>&nbsp;
                                       <a href="#" onClick={event => this.removeItem(event, item.id)}>Remove</a>
                                     </div>
       }
