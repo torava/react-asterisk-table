@@ -1,6 +1,6 @@
 {
   "name": "react-asterisk-table",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "react-asterisk-table React component",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -43,7 +43,7 @@
   "author": "Teemu Orava",
   "homepage": "",
   "license": "MIT",
-  "repository": "",
+  "repository": "https://github.com/torava/react-asterisk-table",
   "keywords": [
     "react-component react table"
   ]
