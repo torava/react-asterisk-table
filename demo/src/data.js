@@ -48,6 +48,7 @@ export function generateNestedTreeItems() {
       id: uniqid(),
       first_name: first_names[Math.floor(Math.random()*first_names.length)],
       last_name: last_names[Math.floor(Math.random()*last_names.length)],
+      recruited_on: new Date(new Date(2000, 0, 0).getTime()+Math.random()*(new Date().getTime()-new Date(2000, 0, 0).getTime())),
       parent_id: parent && parent.id,
       parent
     });

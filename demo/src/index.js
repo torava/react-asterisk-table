@@ -14,9 +14,9 @@ class Demo extends Component {
     return <div>
       <h1>React * Table</h1>
       <a target="_blank" href="/out">Documentation</a><br/>
-      <a href="/flattree">Tree with 10000 items in flat data structure</a><br/>
-      <a href="/nestedtree">Tree with 10000 items in nested data structure</a><br/>
-      <a href="/childview">Editable table with child view</a><br/>
+      <a href="/flattree">Editable, sortable tree with 10000 items in flat data structure</a><br/>
+      <a href="/nestedtree">Editable, sortable tree with 10000 items in nested data structure</a><br/>
+      <a href="/childview">Editable, sortable table with child view</a><br/>
       <a href="/redux">Redux table</a>
       <BrowserRouter>
         <Switch>

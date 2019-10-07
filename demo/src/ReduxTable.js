@@ -5,11 +5,10 @@ import { Provider, connect } from 'react-redux';
 import uniqid from 'uniqid';
 import AsteriskTable from '../../src';
 import sortable from '../../src/Sortable';
-import tree from '../../src/TreeTable';
 import PropTypes from 'prop-types';
 import { generateFlatTreeItems } from './data';
 
-const TreeTable = sortable(tree(AsteriskTable));
+const TreeTable = sortable(AsteriskTable);
 
 const initialState = {
   items: generateFlatTreeItems()

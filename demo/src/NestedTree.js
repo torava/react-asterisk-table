@@ -4,8 +4,22 @@ import AsteriskTable from '../../src';
 import tree from '../../src/TreeTable';
 import sortable from '../../src/Sortable';
 import {generateNestedTreeItems} from './data';
+import _ from 'lodash';
 
 const TreeTable = sortable(tree(AsteriskTable));
+
+function flattenItems(items) {
+  let flat_items = [];
+  
+  items.forEach(item => {
+    flat_items.push(item);
+    if (item.children && item.children.length) {
+      flat_items = flat_items.concat(flattenItems(item.children));
+    }
+  });
+    
+  return flat_items;
+}
 
 export default class NestedTreeDemo extends Component {
   constructor() {
@@ -20,7 +34,7 @@ export default class NestedTreeDemo extends Component {
     this.addItem = this.addItem.bind(this);
     this.removeItem = this.removeItem.bind(this);
     this.addChild = this.addChild.bind(this);
-    this.editParent = this.editParent.bind(this);
+    this.editField = this.editField.bind(this);
     this.handleParentChange = this.handleParentChange.bind(this);
   }
   findItem(items, id) {
@@ -86,11 +100,97 @@ export default class NestedTreeDemo extends Component {
 
     this.setState({items});
   }
-  editParent(item) {
-    this.setState({parent_editing_item_id: item.id});
+  handleFieldChange(event, value) {
+    // Cancel edit on pressing Esc
+    if (event.key == 'Escape') {
+      event.target.innerHTML = value;
+      event.target.blur();
+    }
+    // Prevent line break
+    if (event.key == 'Enter') {
+      event.preventDefault();
+    }
   }
-  handleParentChange(event) {
-    let parent_id = event.target.value;
+  handleFieldSave(value, field, current_item) {
+    let items = [...this.state.items],
+        item = this.findItem(items, current_item.id);
+    
+    _.set(item, field, value);
+
+    this.setState({items, editing_field: null});
+  }
+  handleDateSave(value, field, current_item) {
+    // Validate date input before save
+    if (value instanceof Date && !isNaN(value)) {
+      this.handleFieldSave(value, field, current_item);
+    }
+    else {
+      this.setState({editing_field: null});
+    }
+  }
+  editField(item, field) {
+    this.setState({editing_field: item.id+'-'+field}, () => {
+      document.getElementById(item.id+'-'+field).focus();
+    });
+  }
+  handleParentChange(parent_id, current_item) {
+    let items = [...this.state.items];
+
+    if (parent_id === current_item.id || // Prevent item from being one's own boss
+        parent_id === current_item.parent_id) { // Do nothing if parent is not changed
+      this.setState({editing_field: null});
+      return;
+    }
+
+    let item = this.findItem(items, current_item.id);
+    let parent = parent_id && this.findItem(items, parent_id);
+    // If item has no parent, then remove item from root, add item's children to root and remove parent of the children
+    if (!item.parent) {
+      items = items.filter(i => i.id !== item.id);
+      if (item.children && item.children.length) {
+        items = items.concat(item.children);
+        item.children = item.children.map(child => {
+          delete child.parent;
+          delete child.parent_id;
+        });
+      }
+    }
+    // If item has parent, then remove item from it, add item's children to it and set it as parent of the children
+    else {
+      if (!item.parent.children) {
+        item.parent.children = [];
+      }
+      else {
+        item.parent.children = item.parent.children.filter(i => i.id !== item.id);
+      }
+      if (item.children && item.children.length) {
+        item.parent.children = item.parent.children.concat(item.children);
+        item.children = item.children.map(child => {
+          child.parent = item.parent;
+          child.parent_id = item.parent_id;
+        });
+      }
+    }
+
+    item.children = [];
+
+    // If parent is defined, then set it as item's parent and add item to parent's children
+    if (parent) {
+      item.parent = parent;
+      item.parent_id = parent_id;
+      if (!item.parent.children) {
+        item.parent.children = [];
+      }
+      item.parent.children.push(item);
+    }
+    // Else add item to root
+    else {
+      items.push(item);
+      delete item.parent;
+      delete item.parent_id;
+    }
+
+    this.setState({items, editing_field: null});
 
     this.table_ref.current.getRef().current.expandChildren(parent_id);
   }
@@ -99,12 +199,26 @@ export default class NestedTreeDemo extends Component {
       {
         id: 'first_name',
         label: 'First Name',
-        formatter: value => <div contentEditable suppressContentEditableWarning style={{display:'inline-block'}} data-placeholder="First Name">{value}</div>
+        formatter: (value, item) => <span contentEditable
+                                        suppressContentEditableWarning
+                                        onKeyPress={event => this.handleFieldChange(event, value)}
+                                        onBlur={event => this.handleFieldSave( event.target.innerText, 'first_name', item)}
+                                        style={{display:'inline-block'}}
+                                        data-placeholder="First Name">
+                                        {value}
+                                    </span>
       },
       {
         id: 'last_name',
         label: 'Last Name',
-        formatter: value => <div contentEditable suppressContentEditableWarning style={{display:'inline-block'}} data-placeholder="Last Name">{value}</div>
+        formatter: (value, item) => <span contentEditable
+                                        suppressContentEditableWarning
+                                        onKeyPress={event => this.handleFieldChange(event, value)}
+                                        onBlur={event => this.handleFieldSave( event.target.innerText, 'last_name', item)}
+                                        style={{display:'inline-block'}}
+                                        data-placeholder="Last Name">
+                                        {value}
+                                    </span>
       },
       {
         id: 'parent_id',
@@ -115,16 +229,32 @@ export default class NestedTreeDemo extends Component {
         },
         formatter: (value, item) => {
           return (
-            this.state.parent_editing_item_id !== item.id ? <div onClick={() => this.editParent(item)}>{value || '\u00A0'}</div> :
-            <select name={item.id} value={item.parent_id} onChange={event => this.handleParentChange(event, item)}>
+            this.state.editing_field !== item.id+'-parent_id' ?
+            <span onClick={() => this.editField(item, 'parent_id')}
+                  style={{display: 'block'}}>
+                  {value || '\u00A0'}
+            </span> :
+            <select id={item.id+'-parent_id'}
+                    name={item.id}
+                    value={item.parent_id}
+                    onChange={event => this.handleParentChange(event.target.value, item)}>
               <option value="">No manager</option>
-              {this.state.items.map(option_item => <option key={option_item.id}
-                                                           value={option_item.id}>
-                                                           {option_item.first_name} {option_item.last_name}
-                                                   </option>)}
+              {flattenItems(this.state.items).map(option_item => <option key={option_item.id}
+                                                                         value={option_item.id}>
+                                                                         {option_item.first_name} {option_item.last_name}
+                                                                 </option>)}
             </select>
           );
         }
+      },
+      {
+        id: 'recruited_on',
+        label: 'Recruited on',
+        formatter: (value, item) => (this.state.editing_field !== item.id+'-recruited_on' ? <div onClick={() => this.editField(item, 'recruited_on')}>{value ? value.toLocaleString() : '\u00A0'}</div> :
+                                     <input id={item.id+'-recruited_on'}
+                                            type="datetime-local"
+                                            onBlur={event => this.handleDateSave(new Date(event.target.value), 'recruited_on', item)}
+                                            defaultValue={value && value.toISOString().substr(0, 19)}/>)
       },
       {
         id: 'actions',
