@@ -53,12 +53,20 @@ export default class FlatTreeDemo extends Component {
 
     let items = [...this.state.items];
 
-    items.forEach((i, index) => {
-      if (i.id === id) {
-        items.splice(index, 1);
-        return false;
-      }
-    });
+    // Remove item and its children
+    let remove = (findable_items, parent_id) => {
+      findable_items.forEach((i, index) => {
+        if (i.parent_id === parent_id) {
+          remove(findable_items, i.id);
+          items.splice(index, 1);
+        }
+        if (i.id === id) {
+          items.splice(index, 1);
+        }
+      });
+    };
+
+    remove([...items], id);
 
     this.setState({items});
   }
@@ -110,6 +118,7 @@ export default class FlatTreeDemo extends Component {
         item.parent_id = current_item.parent_id;
         item.parent = current_item;
       }
+      // Changes current item's parent
       if (item.id === current_item.id) {
         item.parent_id = parent_id;
         item.parent = items.find(i => i.id === parent_id);
