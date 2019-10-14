@@ -166,24 +166,24 @@ export default class FlatTreeDemo extends Component {
       {
         id: 'first_name',
         label: 'First Name',
-        formatter: (value, item) => <div contentEditable
-                                         suppressContentEditableWarning
-                                         onKeyPress={event => this.handleFieldChange(event, value)}
-                                         onBlur={event => this.handleFieldSave( event.target.innerText, 'first_name', item)}
-                                         data-placeholder="First Name">
-                                         {value}
-                                    </div>
+        formatter: (value, item) => <span contentEditable
+                                          suppressContentEditableWarning
+                                          onKeyPress={event => this.handleFieldChange(event, value)}
+                                          onBlur={event => this.handleFieldSave( event.target.innerText, 'first_name', item)}
+                                          data-placeholder="First Name">
+                                          {value}
+                                    </span>
       },
       {
         id: 'last_name',
         label: 'Last Name',
-        formatter: (value, item) => <div contentEditable
-                                        suppressContentEditableWarning
-                                        onKeyPress={event => this.handleFieldChange(event, value)}
-                                        onBlur={event => this.handleFieldSave( event.target.innerText, 'last_name', item)}
-                                        data-placeholder="Last Name">
-                                        {value}
-                                    </div>
+        formatter: (value, item) => <span contentEditable
+                                          suppressContentEditableWarning
+                                          onKeyPress={event => this.handleFieldChange(event, value)}
+                                          onBlur={event => this.handleFieldSave( event.target.innerText, 'last_name', item)}
+                                          data-placeholder="Last Name">
+                                          {value}
+                                    </span>
       },
       {
         id: 'parent_id',
@@ -194,7 +194,11 @@ export default class FlatTreeDemo extends Component {
         },
         formatter: (value, item) => {
           return (
-            this.state.editing_field !== item.id+'-parent_id' ? <div onClick={() => this.editField(item, 'parent_id')}>{value || '\u00A0'}</div> :
+            this.state.editing_field !== item.id+'-parent_id' ?
+            <span onClick={() => this.editField(item, 'parent_id')}
+                  style={{display: 'block'}}>
+                  {value || '\u00A0'}
+            </span> :
             <select id={item.id+'-parent_id'}
                     value={item.parent_id}
                     onChange={event => this.handleParentChange(event.target.value, item)}

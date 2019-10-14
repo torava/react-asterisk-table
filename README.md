@@ -6,6 +6,7 @@ react-asterisk-table is an extensible React component. See examples in the demo 
 
 - Sortable
 - Editable
+- Filterable
 - Tree view with flat and nested data
 - Child view
 - Support for HOCs

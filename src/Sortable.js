@@ -91,23 +91,17 @@ export default function sortable(WrappedComponent) {
           a = this.wrapped_component.getValue(a_item, column);
           b = this.wrapped_component.getValue(b_item, column);
 
-          if (a === null || typeof a === undefined || a === '') {
+          if (a === null || typeof a == 'undefined' || a === '') {
             return 1;
           }
-          else if (b === null || typeof b === undefined || b === '') {
+          else if (b === null || typeof b == 'undefined' || b === '') {
             return -1;
-          }
-          else if (typeof a == 'string' && typeof b == 'string') {
-            order = a.localeCompare(b, undefined, {numeric: true, sensitivity: 'base'});
           }
           else if (a === b) {
             order = 0;
           }
-          else if (a < b) {
-            order = -1;
-          }
-          else if (a > b) {
-            order = 1;
+          else {
+            order = String(a).localeCompare(String(b), undefined, {numeric: true, sensitivity: 'base'});
           }
 
           column_order = column_orders[id];

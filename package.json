@@ -15,9 +15,8 @@
     "clean": "nwb clean-module && nwb clean-demo",
     "prepublishOnly": "npm run build",
     "start": "nwb serve-react-demo",
-    "test": "nwb test-react",
-    "test:coverage": "nwb test-react --coverage",
-    "test:watch": "nwb test-react --server"
+    "test": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "peerDependencies": {
     "react": "16.x"
@@ -32,13 +31,20 @@
     "uniqid": "5.x"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-react": "^7.6.3",
+    "babel-jest": "^24.9.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.15.1",
     "eslint": "^6.5.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^2.1.1",
-    "expect": "^24.9.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^24.9.0",
     "nwb": "0.23.x",
-    "react": "^16.9.0"
+    "react": "^16.9.0",
+    "react-test-renderer": "^16.10.2"
   },
   "author": "Teemu Orava",
   "homepage": "",

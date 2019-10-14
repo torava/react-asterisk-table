@@ -10,7 +10,7 @@ export default function renderColumns(props) {
                                             <th key={column.id}
                                                 onClick={event => props.onColumnTitleClick && props.onColumnTitleClick(event, column)}
                                                 >
-                                              {column.label}&nbsp;
+                                              {column.label}
                                               <span className={'column-order '+(props.column_orders && {'ASC': 'asc', 'DESC': 'desc' || ''}[props.column_orders[column.id]] || '')}></span>
                                             </th>
                                           ));

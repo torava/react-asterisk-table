@@ -42,7 +42,7 @@ class TreeItem extends Component {
           }
           // else show blank column
           else {
-            child = <span className="expand">&nbsp;</span>;
+            child = <span className="expand"></span>;
           }
         }
         else {
@@ -115,7 +115,7 @@ class TreeItem extends Component {
                       {...this.props}
                       key={item.id}
                       index={index}
-                      parent={this.props.item.id}
+                      parent={this.props.item}
                       className={(this.props.className ? this.props.className+' ' : '')+this.props.item.id}
                       item={item}
                       depth={this.props.depth+1}
