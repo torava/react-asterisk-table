@@ -4,7 +4,7 @@
   border-width: 1px;
   border-style: solid;
   border-color: silver;
-  padding: 0.2em;
+  padding: 0.4em;
 }
 .asterisk-table {
   table-layout: fixed;
@@ -16,4 +16,5 @@
   border-bottom-width: 2px;
   text-align: left;
   vertical-align: bottom;
+  font-weight: 300;
 }
