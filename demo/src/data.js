@@ -13,6 +13,10 @@ const last_names = ['Smith', 'Jones', 'Taylor', 'Brown', 'Williams', 'Wilson', '
                     'Oliver', 'Penttinen', 'Quimpy', 'Serrano', 'Törnqvist', 'Uhlmann', 'Virtanen', 'Willis', 'Xanthos',
                     'Yrjänä', 'Zagorac', 'Åström'];
 
+function getRandomDate(start, end) {
+  return new Date(start.getTime()+Math.random()*(end.getTime()-start.getTime()));
+}
+
 export function generateFlatTreeItems() {
   let items = [];
   let addItem = (items, parent) => {
@@ -23,7 +27,7 @@ export function generateFlatTreeItems() {
       parent_id: parent && parent.id,
       first_name: _.sample(first_names),
       last_name: _.sample(last_names),
-      recruited_on: new Date(new Date(2000, 0, 0).getTime()+Math.random()*(new Date().getTime()-new Date(2000, 0, 0).getTime()))
+      recruited_on: getRandomDate(new Date(2000, 0, 0), new Date())
     });
     return items[items.length-1];
   };
@@ -48,7 +52,7 @@ export function generateNestedTreeItems() {
       id: uniqid(),
       first_name: first_names[Math.floor(Math.random()*first_names.length)],
       last_name: last_names[Math.floor(Math.random()*last_names.length)],
-      recruited_on: new Date(new Date(2000, 0, 0).getTime()+Math.random()*(new Date().getTime()-new Date(2000, 0, 0).getTime())),
+      recruited_on: getRandomDate(new Date(2000, 0, 0), new Date()),
       parent_id: parent && parent.id,
       parent
     });

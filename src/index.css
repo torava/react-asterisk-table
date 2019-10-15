@@ -15,4 +15,5 @@
 .asterisk-table th {
   border-width: 1px 0 2px 0;
   text-align: left;
+  vertical-align: bottom;
 }

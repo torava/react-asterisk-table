@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import uniqid from 'uniqid';
 import AsteriskTable from '../../src';
-import tree from '../../src/TreeTable';
+import tree from '../../src/Tree';
 import sortable from '../../src/Sortable';
+import renderColumns from '../../src/NestedColumnIterator';
 import {generateFlatTreeItems} from './data';
 import _ from 'lodash';
 
@@ -131,28 +132,34 @@ export default class FlatTreeDemo extends Component {
   getColumns() {
     return [
       {
-        id: 'first_name',
-        label: 'First Name',
-        formatter: (value, item) => <div contentEditable
-                                        suppressContentEditableWarning
-                                        onKeyPress={event => this.handleFieldChange(event, value)}
-                                        onBlur={event => this.handleFieldSave( event.target.innerText, 'first_name', item)}
-                                        style={{display:'inline-block'}}
-                                        data-placeholder="First Name">
-                                        {value}
-                                    </div>
-      },
-      {
-        id: 'last_name',
-        label: 'Last Name',
-        formatter: (value, item) => <div contentEditable
-                                        suppressContentEditableWarning
-                                        onKeyPress={event => this.handleFieldChange(event, value)}
-                                        onBlur={event => this.handleFieldSave( event.target.innerText, 'last_name', item)}
-                                        style={{display:'inline-block'}}
-                                        data-placeholder="Last Name">
-                                        {value}
-                                    </div>
+        id: 'name',
+        label: 'Name',
+        columns: [
+          {
+            id: 'first_name',
+            label: 'First Name',
+            formatter: (value, item) => <div contentEditable
+                                            suppressContentEditableWarning
+                                            onKeyPress={event => this.handleFieldChange(event, value)}
+                                            onBlur={event => this.handleFieldSave( event.target.innerText, 'first_name', item)}
+                                            style={{display:'inline-block'}}
+                                            data-placeholder="First Name">
+                                            {value}
+                                        </div>
+          },
+          {
+            id: 'last_name',
+            label: 'Last Name',
+            formatter: (value, item) => <div contentEditable
+                                            suppressContentEditableWarning
+                                            onKeyPress={event => this.handleFieldChange(event, value)}
+                                            onBlur={event => this.handleFieldSave( event.target.innerText, 'last_name', item)}
+                                            style={{display:'inline-block'}}
+                                            data-placeholder="Last Name">
+                                            {value}
+                                        </div>
+          },
+        ],
       },
       {
         id: 'parent_id',
@@ -207,7 +214,8 @@ export default class FlatTreeDemo extends Component {
                  columns={this.getColumns()}
                  items={this.state.items}
                  flat={true}
-                 toggle_all_columns_button={false}/>
+                 toggle_all_columns_button={false}
+                 renderColumns={renderColumns}/>
     </div>;
   }
 }

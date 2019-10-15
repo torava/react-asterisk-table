@@ -1,8 +1,8 @@
 module.exports = {
-  'setupFiles': [
+  setupFiles: [
       './setupTests'
   ],
-  'moduleNameMapper': {
+  moduleNameMapper: {
     '\\.(css|scss)$': '<rootDir>/__mocks__/styleMock.js'
   }
 };

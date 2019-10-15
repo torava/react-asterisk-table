@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * AsteriskTable function that renders columns to thead
+ * AsteriskTable function that iterates columns to be rendered to thead
  * 
  * @param {object} props 
  */
@@ -10,12 +10,7 @@ function renderColumns(props) {
                                       <col key={'col-'+column.id}
                                            style={column.style}/>
                                     )),
-      column_ths = props.columns.map(column => (
-                                            <th key={column.id}
-                                                onClick={event => props.onColumnTitleClick && props.onColumnTitleClick(event, column)}>
-                                              {column.label}
-                                            </th>
-                                          ));
+      column_ths = props.columns.map(column => props.renderColumn(column, props));
 
   return [
     <colgroup key="colgroup">

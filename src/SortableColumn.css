@@ -1,6 +1,9 @@
 .asterisk-table .column-order {
   font-size: 0.5em;
   vertical-align: middle;
+  margin-left: 1em;
+  width: 1em;
+  display: inline-block;
 }
 .asterisk-table .asc:after {
   content: '\25B2';

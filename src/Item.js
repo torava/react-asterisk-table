@@ -16,23 +16,27 @@ class Item extends Component {
    * @param {array} columns 
    * @param {array} tds 
    */
-  renderColumns(columns, tds) {
+  renderItemColumns(columns, tds) {
     let content,
         key,
-        hasChildren;
+        column_has_children;
     
     if (columns && columns.length) {
       return columns.map(column => {
-        hasChildren = column.columns && column.columns.length;
-        content = this.props.getContent(this.props.item, column);
+        column_has_children = column.columns && column.columns.length;
+        if (column_has_children) {
+          this.renderItemColumns(column.columns, tds);
+        }
+        else {
+          content = this.props.getContent(this.props.item, column);
 
-        key = 'td-row-'+this.props.item.id+'-column-'+column.id;
+          key = 'td-row-'+this.props.item.id+'-column-'+column.id;
 
-        tds.push(<td className={(hasChildren ? 'parent-column': '')+(column.class ? ' '+column.class : '')}
-                      key={key}
-                      style={hasChildren ? {display:'none'} : {}}>
-                      {content}
-                </td>);
+          tds.push(<td className={column.class ? ' '+column.class : ''}
+                        key={key}>
+                        {content}
+                  </td>);
+        }
       });
     }
   }
@@ -40,7 +44,7 @@ class Item extends Component {
   render() {
     let tds = [];
 
-    this.renderColumns(this.props.columns, tds);
+    this.renderItemColumns(this.props.columns, tds);
 
     let row = (
       <tr key={'tr-row-'+this.props.item.id}

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import uniqid from 'uniqid';
 import AsteriskTable from '../../src';
-import tree from '../../src/TreeTable';
+import tree from '../../src/Tree';
 import sortable from '../../src/Sortable';
 import {generateItemsWithChildView} from './data';
 import _ from 'lodash';

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import renderColumns from './SortableColumns';
+import renderColumn from './SortableColumn';
 
 export default function sortable(WrappedComponent) {
   /**
@@ -87,7 +87,7 @@ export default function sortable(WrappedComponent) {
 
       resolved_items.sort((a_item, b_item) => {
         for (let id in column_orders) {
-          column = this.props.columns.find(c => String(c.id) === String(id));
+          column = this.wrapped_component.getColumnById(id);
           a = this.wrapped_component.getValue(a_item, column);
           b = this.wrapped_component.getValue(b_item, column);
 
@@ -100,8 +100,11 @@ export default function sortable(WrappedComponent) {
           else if (a === b) {
             order = 0;
           }
-          else {
+          else if (typeof a == 'string' || typeof b == 'string') {
             order = String(a).localeCompare(String(b), undefined, {numeric: true, sensitivity: 'base'});
+          }
+          else {
+            order = a > b ? 1 : -1;
           }
 
           column_order = column_orders[id];
@@ -132,7 +135,7 @@ export default function sortable(WrappedComponent) {
                                resolveItems={this.resolve}
                                column_orders={this.state.column_orders}
                                items={this.props.items}
-                               renderColumns={renderColumns}/>;
+                               renderColumn={renderColumn}/>;
     }
   }
 

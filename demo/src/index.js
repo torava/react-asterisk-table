@@ -1,6 +1,6 @@
 'use strict';
 
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {BrowserRouter, Route, Switch, Link} from 'react-router-dom';
 import React, {Component} from 'react';
 import FlatTreeDemo from './FlatTree';
 import NestedTreeDemo from './NestedTree';
@@ -11,22 +11,22 @@ import './index.css';
 
 class Demo extends Component {
   render() {
-    return <div>
-      <h1>React * Table</h1>
-      <a target="_blank" href="/out">Documentation</a><br/>
-      <a href="/flattree">Editable, sortable tree with 10000 items in flat data structure</a><br/>
-      <a href="/nestedtree">Editable, sortable tree with 10000 items in nested data structure</a><br/>
-      <a href="/childview">Editable, sortable table with child view</a><br/>
-      <a href="/redux">Redux table</a>
-      <BrowserRouter>
+    return <BrowserRouter>
+      <div>
+        <h1>React * Table</h1>
+        <a target="_blank" href="/out">Documentation</a><br/>
+        <Link to="/flattree">Editable, sortable tree with 10000 items in flat data structure</Link><br/>
+        <Link to="/nestedtree">Editable, sortable tree with 10000 items in nested data structure</Link><br/>
+        <Link to="/childview">Editable, sortable table with child view</Link><br/>
+        <Link to="/redux">Redux table</Link>
         <Switch>
           <Route path="/flattree" component={FlatTreeDemo}/>
           <Route path="/nestedtree" component={NestedTreeDemo}/>
           <Route path="/childview" component={ChildViewDemo}/>
           <Route path="/redux" component={ReduxTableDemo}/>
         </Switch>
-      </BrowserRouter>
-    </div>;
+      </div>
+    </BrowserRouter>;
   }
 }
 

@@ -5,10 +5,11 @@ react-asterisk-table is an extensible React component. See examples in the demo 
 ## Features
 
 - Sortable
-- Editable
-- Filterable
+- Custom cell formatter
+- Custom item resolver
 - Tree view with flat and nested data
 - Child view
+- Nested columns
 - Support for HOCs
 
 ## Dependencies
@@ -46,6 +47,7 @@ class Example extends Component {
 
 - Sortable
 - Editable
+- Nested columns
 - Tree view with flat data structure
 - Tree view with nested data structure
 - Child view

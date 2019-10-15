@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import '../css/TreeItem.css';
+import './TreeItem.css';
 
 /**
  * AsteriskTable component that renders item's row, columns and possible children or child view.
@@ -19,15 +19,15 @@ class TreeItem extends Component {
    * @param {array} columns 
    * @param {array} tds 
    */
-  renderColumns(columns, tds) {
+  renderItemColumns(columns, tds) {
     let content,
         key,
-        columnHasChildren,
+        column_has_children,
         child;
     
     if (columns && columns.length) {
       return columns.map((column, i) => {
-        columnHasChildren = column.columns && column.columns.length;
+        column_has_children = column.columns && column.columns.length;
         content = this.props.getContent(this.props.item, column);
 
         key = 'td-row-'+this.props.item.id+'-column-'+column.id;
@@ -49,25 +49,27 @@ class TreeItem extends Component {
           child = false;
         }
 
-        if (child) {
-          tds.push(<td key={key}
-            className={column.class}>
-              <div style={{paddingLeft: this.props.depth+'em'}}>
-                {child}
-                {content}
-              </div>
-          </td>);
+        if (column_has_children) {
+          this.renderItemColumns(column.columns, tds);
         }
         else {
-          tds.push(<td className={(columnHasChildren ? 'parent-column': '')+(column.class ? ' '+column.class : '')}
-                       key={key}
-                       style={columnHasChildren ? {display:'none'} : {}}>
-                       {content}
-                  </td>);
-        }
-
-        if (columnHasChildren) {
-          this.renderColumns(column.columns, tds);
+          if (child) {
+            tds.push(<td key={key}
+              className={column.class}>
+                <div style={{
+                              paddingLeft: this.props.depth+'em'
+                            }}>
+                  {child}
+                  {content}
+                </div>
+            </td>);
+          }
+          else {
+            tds.push(<td className={column.class ? ' '+column.class : ''}
+                         key={key}>
+                         {content}
+                    </td>);
+          }
         }
       });
     }
@@ -83,7 +85,7 @@ class TreeItem extends Component {
     
     let tds = [];
 
-    this.renderColumns(this.props.columns, tds);
+    this.renderItemColumns(this.props.columns, tds);
 
     let row = (
       <tr key={'tr-row-'+this.props.item.id}

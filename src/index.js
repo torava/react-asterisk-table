@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import Item from './Item';
-import renderColumns from './Columns';
+import renderColumns from './ColumnIterator';
+import renderColumn from './Column';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import '../css/index.css';
+import './index.css';
 
 /**
  * Extendable React table component
@@ -68,8 +69,21 @@ class AsteriskTable extends Component {
     let content = column.formatter && column.formatter(value, item) || value;
     return content;
   }
+  getColumnById(id) {
+    let found_column;
+    const find = columns => columns.forEach(column => {
+      if (column.id === id) {
+        found_column = column;
+      }
+      else if (column.columns && column.columns.length) {
+        find(column.columns);
+      }
+    });
+    find(this.props.columns);
+    return found_column;
+  }
   render() {
-    let rendered_columns = this.props.renderColumns(this.props) || renderColumns(this.props);
+    let rendered_columns = this.props.renderColumns(this.props);
 
     let TableItem = this.props.Item || Item;
 
@@ -96,6 +110,7 @@ class AsteriskTable extends Component {
   }
 }
 AsteriskTable.defaultProps = {
+  renderColumn,
   renderColumns
 };
 
@@ -109,7 +124,8 @@ AsteriskTable.propTypes = {
   renderColumns: PropTypes.func,
   toggleChildren: PropTypes.func,
   childView: PropTypes.func,
-  onMount: PropTypes.func
+  onMount: PropTypes.func,
+  getColumns: PropTypes.func
 };
 
 export default AsteriskTable;
