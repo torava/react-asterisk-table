@@ -1,10 +1,15 @@
+/**
+ * @module SortableColumnRenderer
+ */
+
 import React from 'react';
-import './SortableColumn.css';
+import './SortableColumnRenderer.css';
 import PropTypes from 'prop-types';
 
 /**
  * AsteriskTable function that returns sortable column
  * 
+ * @param {Column} column
  * @param {object} props 
  */
 function renderColumn(column, props) {

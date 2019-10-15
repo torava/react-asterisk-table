@@ -1,3 +1,7 @@
+/**
+ * @module NestedColumnIterator
+ */
+
 import React from 'react';
 import './NestedColumnIterator.css';
 
@@ -7,7 +11,7 @@ import './NestedColumnIterator.css';
  * 
  * @param {object} props 
  */
-export default function renderColumns(props) {
+function renderColumns(props) {
   let cols = [];
   let content = [];
 
@@ -52,3 +56,5 @@ export default function renderColumns(props) {
     </thead>
   ];
 }
+
+export default renderColumns;

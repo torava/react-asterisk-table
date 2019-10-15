@@ -1,7 +1,3 @@
 .asterisk-table th.parent {
   border-bottom-width: 1px;
 }
-.asterisk-table th,
-.asterisk-table td {
-  border-width: 1px;
-}

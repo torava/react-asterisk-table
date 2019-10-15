@@ -15,8 +15,11 @@
     "clean": "nwb clean-module && nwb clean-demo",
     "prepublishOnly": "npm run build",
     "start": "nwb serve-react-demo",
-    "test": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "docs": "jsdoc -c ./jsdoc.json",
+    "docs:show": "open out/index.html"
   },
   "peerDependencies": {
     "react": "16.x"

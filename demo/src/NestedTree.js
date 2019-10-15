@@ -281,6 +281,7 @@ export default class NestedTreeDemo extends Component {
                  children_key="children"
                  columns={this.getColumns()}
                  items={this.state.items}
+                 toggle_all_columns_button={false}
                  renderColumns={renderColumns}/>
     </div>;
   }

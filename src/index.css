@@ -1,7 +1,7 @@
 .asterisk-table,
 .asterisk-table th,
 .asterisk-table td {
-  border-width: 1px 0;
+  border-width: 1px;
   border-style: solid;
   border-color: silver;
   padding: 0.2em;
@@ -13,7 +13,7 @@
   border-width: 1px;
 }
 .asterisk-table th {
-  border-width: 1px 0 2px 0;
+  border-bottom-width: 2px;
   text-align: left;
   vertical-align: bottom;
 }

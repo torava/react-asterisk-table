@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import renderColumn from './SortableColumn';
+import renderColumn from './SortableColumnRenderer';
 
 export default function sortable(WrappedComponent) {
   /**
@@ -79,6 +79,7 @@ export default function sortable(WrappedComponent) {
 
       let resolved_items = [...items],
           column_orders = this.state ? this.state.column_orders : {},
+          collator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'}),
           column_order,
           order,
           a,
@@ -101,7 +102,7 @@ export default function sortable(WrappedComponent) {
             order = 0;
           }
           else if (typeof a == 'string' || typeof b == 'string') {
-            order = String(a).localeCompare(String(b), undefined, {numeric: true, sensitivity: 'base'});
+            order = collator.compare(String(a), String(b));
           }
           else {
             order = a > b ? 1 : -1;

@@ -1,4 +1,8 @@
-import React from 'react';
+/**
+ * @module ColumnIterator
+ */
+
+ import React from 'react';
 
 /**
  * AsteriskTable function that iterates columns to be rendered to thead

@@ -1,10 +1,18 @@
 import React, {Component} from 'react';
 import Item from './Item';
 import renderColumns from './ColumnIterator';
-import renderColumn from './Column';
+import renderColumn from './ColumnRenderer';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import './index.css';
+
+/**
+ * @typedef Column
+ * @property {string} id - compulsory column identifier
+ * @property {string} [label] - column header label
+ * @property {function|string} [property] - optional string for column path or function that takes item and returns value
+ * @property {function} [formatter] - optional function that takes value and item as parameter and formats cell content
+ */
 
 /**
  * Extendable React table component
@@ -36,7 +44,7 @@ class AsteriskTable extends Component {
    * Otherwise use column id.
    * 
    * @param {object} item 
-   * @param {object} column 
+   * @param {Column} column 
    * @returns {string} value
    */
   getValue(item, column) {
@@ -61,12 +69,12 @@ class AsteriskTable extends Component {
    * then uses column formatter with value and item as parameters.
    * 
    * @param {object} item 
-   * @param {object} column 
+   * @param {Column} column 
    * @returns {string} content
    */
   getContent(item, column) {
     let value = this.getValue(item, column);
-    let content = column.formatter && column.formatter(value, item) || value;
+    let content = typeof column.formatter == 'function' && column.formatter(value, item) || value;
     return content;
   }
   getColumnById(id) {

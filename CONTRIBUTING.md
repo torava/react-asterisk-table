@@ -26,4 +26,4 @@
 
 ## Documentation
 
-- `jsdoc -c jsdoc.json` will update documentation based on code comments.
+- `npm run docs'` will update documentation based on code comments.

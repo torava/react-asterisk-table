@@ -1,7 +1,7 @@
 import React from 'react';
 import {mount} from 'enzyme';
 import expect from 'expect';
-import AsteriskTable from '../';
+import AsteriskTable from '..';
 import renderColumns from '../NestedColumnIterator';
 
 const columns = [{

@@ -15,8 +15,8 @@ class Demo extends Component {
       <div>
         <h1>React * Table</h1>
         <a target="_blank" href="/out">Documentation</a><br/>
-        <Link to="/flattree">Editable, sortable tree with 10000 items in flat data structure</Link><br/>
-        <Link to="/nestedtree">Editable, sortable tree with 10000 items in nested data structure</Link><br/>
+        <Link to="/flattree">Editable, sortable tree with nested columns and 10000 items in flat data structure</Link><br/>
+        <Link to="/nestedtree">Editable, sortable tree with nested columns and 10000 items in nested data structure</Link><br/>
         <Link to="/childview">Editable, sortable table with child view</Link><br/>
         <Link to="/redux">Redux table</Link>
         <Switch>

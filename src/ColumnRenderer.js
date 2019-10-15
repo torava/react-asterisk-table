@@ -1,9 +1,14 @@
+/**
+ * @module ColumnRenderer
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
  * AsteriskTable function that returns column
  * 
+ * @param {Column} column
  * @param {object} props 
  */
 function renderColumn(column, props) {
