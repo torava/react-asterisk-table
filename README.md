@@ -53,7 +53,8 @@ class Example extends Component {
 - Child view
 - Redux integration
 
-https://codesandbox.io/embed/github/torava/react-asterisk-table/tree/master/
+CodeSandbox https://codesandbox.io/embed/github/torava/react-asterisk-table/tree/master/
+Live demo https://vuqh4.sse.codesandbox.io/
 
 ## Documentation
 
