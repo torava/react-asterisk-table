@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
  * AsteriskTable function that returns sortable column
  * 
  * @param {Column} column
- * @param {object} props 
+ * @param {props} props 
  */
 function renderColumn(column, props) {
   return (

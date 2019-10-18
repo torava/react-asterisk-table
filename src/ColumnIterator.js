@@ -1,13 +1,11 @@
-/**
- * @module ColumnIterator
- */
-
- import React from 'react';
+import React from 'react';
 
 /**
  * AsteriskTable function that iterates columns to be rendered to thead
  * 
- * @param {object} props 
+ * @name renderColumns
+ * @function
+ * @param {props} props
  */
 function renderColumns(props) {
   let cols = props.columns.map(column => (

@@ -1,3 +1,7 @@
+/**
+ * @module Tree
+ */
+
 import React, {Component} from 'react';
 import TreeItem from './TreeItem';
 import PropTypes from 'prop-types';
@@ -6,9 +10,10 @@ export default function tree(WrappedComponent) {
   /**
    * AsteriskTable HOC component for formatting nested data to a tree view.
    * Takes flat data with parent id defined in key from parent_id_key prop when flat prop is true.
-   * Additionally, parent object can be defined in parent_key to speedup recursiv expanding.
+   * Additionally, parent object can be defined in parent_key to speedup recursive expanding.
    * Takes nested data with children listed in key from children_key prop when flat prop is false.
    * 
+   * @property {props} props
    * @class
    */
   class Tree extends Component {
@@ -196,11 +201,23 @@ export default function tree(WrappedComponent) {
     }
   }
 
+  /**
+   * @typedef {props} props
+   * @property {array} items
+   * @property {array} columns
+   * @property {boolean} [flat=false]
+   * @property {function} [resolveItems]
+   * @property {boolean} [toggle_all_columns_button=true]
+   * @property {boolean} [parent_id_key=parent_id]
+   * @property {string} [parent_key=parent]
+   * @property {string} [children_key=children]
+   */
+
   Tree.propTypes = {
     items: PropTypes.array,
+    columns: PropTypes.array,
     flat: PropTypes.bool,
     resolveItems: PropTypes.function,
-    columns: PropTypes.array,
     toggle_all_columns_button: PropTypes.bool,
     parent_id_key: PropTypes.string,
     parent_key: PropTypes.string,
@@ -211,7 +228,8 @@ export default function tree(WrappedComponent) {
     toggle_all_columns_button: true,
     parent_id_key: 'parent_id',
     parent_key: 'parent',
-    children_key: 'children'
+    children_key: 'children',
+    flat: false
   };
 
   return Tree;

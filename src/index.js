@@ -8,26 +8,27 @@ import './index.css';
 
 /**
  * @typedef Column
- * @property {string} id - compulsory column identifier
+ * @property {string} id - column identifier
  * @property {string} [label] - column header label
- * @property {function|string} [property] - optional string for column path or function that takes item and returns value
- * @property {function} [formatter] - optional function that takes value and item as parameter and formats cell content
+ * @property {function|string} [property] - string for column path or function that takes item and returns value
+ * @property {function} [formatter] - function that takes value and item as parameter and formats cell content
+ */
+
+/**
+ * @name onMount
+ * @function
+ * @param {AsteriskTable} component
  */
 
 /**
  * Extendable React table component
  * 
+ * @property {props} props
  * @class
  */
 class AsteriskTable extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      column_orders: {},
-      expanded_items: {},
-      ready: false
-    };
 
     this.getContent = this.getContent.bind(this);
   }
@@ -107,7 +108,6 @@ class AsteriskTable extends Component {
               key={item.id}
               index={index}
               item={item}
-              filter={this.state.filter}
               getContent={this.getContent}
               depth={0}
             />
@@ -117,23 +117,31 @@ class AsteriskTable extends Component {
     );
   }
 }
+
+/**
+ * @typedef props
+ * @property {array} items - table items
+ * @property {array} columns - table columns
+ * @property {object} [table_props] - props to append to table tag
+ * @property {function} [Item] - custom row item
+ * @property {function} [resolveItems] - function for resolving items
+ * @property {renderColumns} [renderColumns=renderColumns] - function for rendering thead content
+ * @property {onMount} [onMount] - function to be called on component mount with component as param
+ */
+
+AsteriskTable.propTypes = {
+  items: PropTypes.array,
+  columns: PropTypes.array,
+  table_props: PropTypes.object,
+  Item: PropTypes.func,
+  resolveItems: PropTypes.func,
+  renderColumns: PropTypes.func,
+  onMount: PropTypes.func
+};
+
 AsteriskTable.defaultProps = {
   renderColumn,
   renderColumns
-};
-
-AsteriskTable.propTypes = {
-  table_props: PropTypes.object,
-  Item: PropTypes.func,
-  items: PropTypes.array,
-  expanded_items: PropTypes.object,
-  columns: PropTypes.array,
-  resolveItems: PropTypes.func,
-  renderColumns: PropTypes.func,
-  toggleChildren: PropTypes.func,
-  childView: PropTypes.func,
-  onMount: PropTypes.func,
-  getColumns: PropTypes.func
 };
 
 export default AsteriskTable;

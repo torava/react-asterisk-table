@@ -96,6 +96,276 @@
     
 
     
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="onMount"><span class="type-signature"></span>onMount<span class="signature">(component)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>component</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="AsteriskTable.html">AsteriskTable</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line17">line 17</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="renderColumns"><span class="type-signature"></span>renderColumns<span class="signature">(props)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>AsteriskTable function that iterates columns to be rendered to thead</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#props">props</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ColumnIterator.js.html">ColumnIterator.js</a>, <a href="ColumnIterator.js.html#line3">line 3</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
 
     
         <h3 class="subsection-title">Type Definitions</h3>
@@ -163,7 +433,7 @@
 
             
 
-            <td class="description last"><p>compulsory column identifier</p></td>
+            <td class="description last"><p>column identifier</p></td>
         </tr>
 
     
@@ -228,7 +498,7 @@
 
             
 
-            <td class="description last"><p>optional string for column path or function that takes item and returns value</p></td>
+            <td class="description last"><p>string for column path or function that takes item and returns value</p></td>
         </tr>
 
     
@@ -259,7 +529,7 @@
 
             
 
-            <td class="description last"><p>optional function that takes value and item as parameter and formats cell content</p></td>
+            <td class="description last"><p>function that takes value and item as parameter and formats cell content</p></td>
         </tr>
 
     
@@ -315,6 +585,340 @@
 
 
             
+                
+<h4 class="name" id="props">props</h4>
+
+
+
+
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>items</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>table items</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>columns</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>table columns</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>table_props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>props to append to table tag</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>Item</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>custom row item</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>resolveItems</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>function for resolving items</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>renderColumns</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#renderColumns">renderColumns</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    renderColumns
+                
+                </td>
+            
+
+            <td class="description last"><p>function for rendering thead content</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onMount</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#onMount">onMount</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>function to be called on component mount with component as param</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line121">line 121</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
     
 
     
@@ -328,13 +932,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-ColumnIterator.html">ColumnIterator</a></li><li><a href="module-ColumnRenderer.html">ColumnRenderer</a></li><li><a href="module-NestedColumnIterator.html">NestedColumnIterator</a></li><li><a href="module-SortableColumnRenderer.html">SortableColumnRenderer</a></li></ul><h3>Classes</h3><ul><li><a href="AsteriskTable.html">AsteriskTable</a></li><li><a href="Item.html">Item</a></li><li><a href="Sortable.html">Sortable</a></li><li><a href="Tree.html">Tree</a></li><li><a href="TreeItem.html">TreeItem</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-ColumnRenderer.html">ColumnRenderer</a></li><li><a href="module-Item.html">Item</a></li><li><a href="module-NestedColumnIterator.html">NestedColumnIterator</a></li><li><a href="module-Sortable.html">Sortable</a></li><li><a href="module-SortableColumnRenderer.html">SortableColumnRenderer</a></li><li><a href="module-Tree.html">Tree</a></li></ul><h3>Classes</h3><ul><li><a href="AsteriskTable.html">AsteriskTable</a></li><li><a href="module-Item-Item.html">Item</a></li><li><a href="module-Sortable-Sortable.html">Sortable</a></li><li><a href="module-Tree-Tree.html">Tree</a></li><li><a href="TreeItem.html">TreeItem</a></li></ul><h3>Global</h3><ul><li><a href="global.html#onMount">onMount</a></li><li><a href="global.html#renderColumns">renderColumns</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Tue Oct 15 2019 20:24:43 GMT+0300 (Eastern European Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Oct 18 2019 11:32:26 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>

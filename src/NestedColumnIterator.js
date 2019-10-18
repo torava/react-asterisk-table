@@ -9,7 +9,7 @@ import './NestedColumnIterator.css';
  * AsteriskTable function that iterates nested columns to be rendered to thead.
  * If column has columns field, then nested columns will be shown below their parent column.
  * 
- * @param {object} props 
+ * @param {props} props 
  */
 function renderColumns(props) {
   let cols = [];

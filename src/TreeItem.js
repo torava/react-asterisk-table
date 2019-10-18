@@ -55,7 +55,8 @@ class TreeItem extends Component {
         else {
           if (child) {
             tds.push(<td key={key}
-              className={column.class}>
+                         className={column.class}
+                         {...this.props.td_props}>
                 <div style={{
                               paddingLeft: this.props.depth+'em'
                             }}>
@@ -91,7 +92,7 @@ class TreeItem extends Component {
       <tr key={'tr-row-'+this.props.item.id}
           id={this.props.item.id}
           data-parent={this.props.parent}
-          className={this.props.className}>
+          {...this.props.tr_props}>
         {tds}
       </tr>
     );
@@ -111,8 +112,6 @@ class TreeItem extends Component {
 
       if (children && children.length) {
         renderable_children = children.map((item, index) => {
-          if (this.props.filter && !this.props.filter(item)) return true;
-
           return <TreeItem
                       {...this.props}
                       key={item.id}
@@ -147,6 +146,8 @@ class TreeItem extends Component {
 TreeItem.propTypes = {
   item: PropTypes.object,
   items: PropTypes.array,
+  tr_props: PropTypes.string,
+  td_props: PropTypes.string,
   flat: PropTypes.bool,
   children_key: PropTypes.string,
   expanded_items: PropTypes.object,

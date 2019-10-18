@@ -1,3 +1,7 @@
+/**
+ * @module Sortable
+ */
+
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import renderColumn from './SortableColumnRenderer';
@@ -139,6 +143,14 @@ export default function sortable(WrappedComponent) {
                                renderColumn={renderColumn}/>;
     }
   }
+
+  /**
+   * @typedef {props} props
+   * @property {items} array
+   * @property {columns} array
+   * @property {function} resolveItems
+   * @property {function} sortItems - custom sorting function
+   */
 
   Sortable.propTypes = {
     items: PropTypes.array,

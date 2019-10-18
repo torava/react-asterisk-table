@@ -1,5 +1,18 @@
+/**
+ * @module Item
+ */
+
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+
+/**
+ * @typedef {props} props
+ * @property {object} item
+ * @property {object} columns
+ * @property {function} getContent
+ * @property {object} [tr_props]
+ * @property {object} [td_props]
+*/
 
 /**
  * AsteriskTable component that renders item row and its columns
@@ -33,8 +46,9 @@ class Item extends Component {
           key = 'td-row-'+this.props.item.id+'-column-'+column.id;
 
           tds.push(<td className={column.class ? ' '+column.class : ''}
-                        key={key}>
-                        {content}
+                       key={key}
+                       {...this.props.td_props}>
+                       {content}
                   </td>);
         }
       });
@@ -49,8 +63,7 @@ class Item extends Component {
     let row = (
       <tr key={'tr-row-'+this.props.item.id}
           id={this.props.item.id}
-          data-parent={this.props.parent}
-          className={this.props.className}>
+          {...this.props.tr_props}>
         {tds}
       </tr>
     );
@@ -61,8 +74,8 @@ class Item extends Component {
 
 Item.propTypes = {
   item: PropTypes.object,
-  parent: PropTypes.object,
-  className: PropTypes.string,
+  tr_props: PropTypes.object,
+  td_props: PropTypes.object,
   columns: PropTypes.array,
   getContent: PropTypes.func
 };
