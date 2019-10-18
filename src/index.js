@@ -21,6 +21,13 @@ import './index.css';
  */
 
 /**
+ * @name resolveItems
+ * @function
+ * @param {array} items
+ * @returns {array} resolved items
+ */
+
+/**
  * Extendable React table component
  * 
  * @property {props} props
@@ -94,7 +101,7 @@ class AsteriskTable extends Component {
   render() {
     let rendered_columns = this.props.renderColumns(this.props);
 
-    let TableItem = this.props.Item || Item;
+    let TableItem = this.props.Item;
 
     let items = this.props.resolveItems ? this.props.resolveItems(this.props.items) : this.props.items;
 
@@ -123,8 +130,8 @@ class AsteriskTable extends Component {
  * @property {array} items - table items
  * @property {array} columns - table columns
  * @property {object} [table_props] - props to append to table tag
- * @property {function} [Item] - custom row item
- * @property {function} [resolveItems] - function for resolving items
+ * @property {object} [Item=Item] - custom row item
+ * @property {resolveItems} [resolveItems] - function for resolving items
  * @property {renderColumns} [renderColumns=renderColumns] - function for rendering thead content
  * @property {onMount} [onMount] - function to be called on component mount with component as param
  */
@@ -133,7 +140,7 @@ AsteriskTable.propTypes = {
   items: PropTypes.array,
   columns: PropTypes.array,
   table_props: PropTypes.object,
-  Item: PropTypes.func,
+  Item: PropTypes.object,
   resolveItems: PropTypes.func,
   renderColumns: PropTypes.func,
   onMount: PropTypes.func
@@ -141,7 +148,8 @@ AsteriskTable.propTypes = {
 
 AsteriskTable.defaultProps = {
   renderColumn,
-  renderColumns
+  renderColumns,
+  Item
 };
 
 export default AsteriskTable;
