@@ -4,17 +4,17 @@
   border-width: 1px;
   border-style: solid;
   border-color: silver;
-  padding: 0.4em;
+  padding: 0.2em;
 }
 .asterisk-table {
   table-layout: fixed;
   border-collapse: collapse;
-  font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+  font-family: 'Helvetica Neue', 'Segoe UI', sans-serif;
   border-width: 1px;
 }
 .asterisk-table th {
   border-bottom-width: 2px;
   text-align: left;
   vertical-align: bottom;
-  font-weight: 300;
+  color: gray;
 }
