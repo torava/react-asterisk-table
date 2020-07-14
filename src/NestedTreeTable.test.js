@@ -1,7 +1,7 @@
 import React from 'react';
 import {mount} from 'enzyme';
-import AsteriskTable from '../';
-import tree from '../Tree';
+import AsteriskTable from '.';
+import tree from './Tree';
 import expect from 'expect';
 
 const columns = [{
@@ -9,25 +9,30 @@ const columns = [{
   label: 'Name'
 }];
 
-const flat_items = [{
-  id: 1,
-  name: 'Branch',
-  parent_id: 3
-},
-{
-  id: 2,
-  name: 'Leaf',
-  parent_id: 1
-},
-{
-  id: 3,
-  name: 'Tree'
-}];
+const nested_items = [
+  {
+    id: 1,
+    name: 'Tree',
+    children: [
+      {
+        id: 2,
+        name: 'Branch',
+        children: [
+          {
+            id: 3,
+            name: 'Leaf'
+          }
+        ]
+      }
+    ]
+  }
+];
 
 const TreeTable = tree(AsteriskTable);
 
-describe('flat data table', () => {
-  const table = mount(<TreeTable id="flat-table" columns={columns} items={flat_items} flat={true}/>);
+describe('nested data table', () => {
+  const table = mount(<TreeTable id="nested-table" columns={columns} items={nested_items} flat={false}/>);
+  
   it('should render table correctly', () => {
     expect(table.find('tr').length).toEqual(2); // should have 1 header row and 4 item rows
     expect(table.find('th').text()).toEqual('Name'); // should have header column cell
@@ -60,5 +65,6 @@ describe('flat data table', () => {
   it('should close table', () => {
     table.find('.expand').at(0).simulate('click');
     expect(table.find('tr').length).toEqual(2);
+    table.unmount();
   });
 });

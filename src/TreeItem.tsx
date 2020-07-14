@@ -1,6 +1,19 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import './TreeItem.css';
+import { ItemProps } from './Item';
+import { Id } from './types';
+
+interface TreeItemProps extends ItemProps {
+  items: any[];
+  flat: boolean;
+  childrenKey: string;
+  toggleChildren: Function;
+  expandedItems: Record<Id, boolean>;
+  childView: Function;
+  depth: number;
+  resolveItems: Function;
+  parent: any;
+}
 
 /**
  * AsteriskTable component that renders item's row, columns and possible children or child view.
@@ -9,8 +22,9 @@ import './TreeItem.css';
  * 
  * @class
  */
-class TreeItem extends Component {
-  constructor(props) {
+class TreeItem extends Component<TreeItemProps> {
+  itemHasChildren: boolean;
+  constructor(props: TreeItemProps) {
     super(props);
   }
   /**
@@ -19,15 +33,15 @@ class TreeItem extends Component {
    * @param {array} columns 
    * @param {array} tds 
    */
-  renderItemColumns(columns, tds) {
+  renderItemColumns(columns: any[], tds: React.ReactElement[]) {
     let content,
         key,
-        column_has_children,
+        columnHasChildren,
         child;
     
     if (columns && columns.length) {
       return columns.map((column, i) => {
-        column_has_children = column.columns && column.columns.length;
+        columnHasChildren = column.columns && column.columns.length;
         content = this.props.getContent(this.props.item, column);
 
         key = 'td-row-'+this.props.item.id+'-column-'+column.id;
@@ -37,7 +51,7 @@ class TreeItem extends Component {
           if (this.props.childView && typeof this.props.childView === 'function' || this.itemHasChildren) {
             child = <a href="#"
                        onClick={event => this.props.toggleChildren(event, this.props.item.id)}
-                       className={'expand '+(this.props.expanded_items[this.props.item.id] ? 'expanded' : 'closed')}>
+                       className={'expand '+(this.props.expandedItems[this.props.item.id] ? 'expanded' : 'closed')}>
                     </a>;
           }
           // else show blank column
@@ -49,14 +63,14 @@ class TreeItem extends Component {
           child = false;
         }
 
-        if (column_has_children) {
+        if (columnHasChildren) {
           this.renderItemColumns(column.columns, tds);
         }
         else {
           if (child) {
             tds.push(<td key={key}
                          className={column.class}
-                         {...this.props.td_props}>
+                         {...this.props.tdProps}>
                 <div style={{
                               paddingLeft: this.props.depth+'em'
                             }}>
@@ -78,13 +92,13 @@ class TreeItem extends Component {
 
   render() {
     if (!this.props.flat) {
-      this.itemHasChildren = this.props.children_key && this.props.item[this.props.children_key] && this.props.item[this.props.children_key].length;
+      this.itemHasChildren = this.props.childrenKey && this.props.item[this.props.childrenKey] && this.props.item[this.props.childrenKey].length;
     }
     else {
       this.itemHasChildren = this.props.items.find(item => item.parent_id === this.props.item.id);
     }
     
-    let tds = [];
+    let tds: React.ReactElement[] = [];
 
     this.renderItemColumns(this.props.columns, tds);
 
@@ -92,16 +106,16 @@ class TreeItem extends Component {
       <tr key={'tr-row-'+this.props.item.id}
           id={this.props.item.id}
           data-parent={this.props.parent}
-          {...this.props.tr_props}>
+          {...this.props.trProps}>
         {tds}
       </tr>
     );
 
-    if (this.props.expanded_items[this.props.item.id] && this.itemHasChildren) {
+    if (this.props.expandedItems[this.props.item.id] && this.itemHasChildren) {
       let children;
-      let renderable_children = [];
-      if (!this.props.flat && this.props.children_key) {
-        children = this.props.item[this.props.children_key];
+      let renderableChildren = [];
+      if (!this.props.flat && this.props.childrenKey) {
+        children = this.props.item[this.props.childrenKey];
       }
       else {
         children = this.props.items;
@@ -111,21 +125,19 @@ class TreeItem extends Component {
       }
 
       if (children && children.length) {
-        renderable_children = children.map((item, index) => {
+        renderableChildren = children.map((item: any) => {
           return <TreeItem
                       {...this.props}
                       key={item.id}
-                      index={index}
                       parent={this.props.item}
-                      className={(this.props.className ? this.props.className+' ' : '')+this.props.item.id}
                       item={item}
                       depth={this.props.depth+1}
                     />;
         });
       }
-      return [row].concat(renderable_children);
+      return [row].concat(renderableChildren);
     }
-    else if (this.props.expanded_items[this.props.item.id] && this.props.childView) {
+    else if (this.props.expandedItems[this.props.item.id] && this.props.childView) {
       return [
         row, 
         (<tr key={'child-view-'+this.props.item.id}
@@ -142,24 +154,5 @@ class TreeItem extends Component {
     }
   }
 }
-
-TreeItem.propTypes = {
-  item: PropTypes.object,
-  items: PropTypes.array,
-  tr_props: PropTypes.string,
-  td_props: PropTypes.string,
-  flat: PropTypes.bool,
-  children_key: PropTypes.string,
-  expanded_items: PropTypes.object,
-  parent: PropTypes.object,
-  columns: PropTypes.array,
-  className: PropTypes.string,
-  childView: PropTypes.func,
-  getContent: PropTypes.func,
-  toggleChildren: PropTypes.func,
-  filter: PropTypes.func,
-  resolveItems: PropTypes.func,
-  depth: PropTypes.number
-};
 
 export default TreeItem;

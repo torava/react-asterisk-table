@@ -4,7 +4,8 @@
 
 import React from 'react';
 import './SortableColumnRenderer.css';
-import PropTypes from 'prop-types';
+import { Column } from './types';
+import { SortableTableProps } from './Sortable';
 
 /**
  * AsteriskTable function that returns sortable column
@@ -12,21 +13,15 @@ import PropTypes from 'prop-types';
  * @param {Column} column
  * @param {props} props 
  */
-function renderColumn(column, props) {
+function renderColumn(column: Column, props: SortableTableProps) {
   return (
-    <th {...props.column_props}
+    <th {...props.columnProps}
         key={column.id}
         onClick={event => props.onColumnTitleClick && props.onColumnTitleClick(event, column)}>
       {column.label}
-      <span className={'column-order '+(props.column_orders && {'ASC': 'asc', 'DESC': 'desc' || ''}[props.column_orders[column.id]] || '')}></span>
+      <span className={'column-order '+(props.columnOrders && props.columnOrders[column.id] || '')}></span>
     </th>
   );
 }
-
-renderColumn.propTypes = {
-  column_props: PropTypes.object,
-  onColumnTitleClick: PropTypes.func,
-  column_orders: PropTypes.object
-};
 
 export default renderColumn;

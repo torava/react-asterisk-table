@@ -3,24 +3,23 @@
  */
 
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import { Column } from './types';
 
-/**
- * @typedef {props} props
- * @property {object} item
- * @property {object} columns
- * @property {function} getContent
- * @property {object} [tr_props]
- * @property {object} [td_props]
-*/
+export interface ItemProps {
+  item: any;
+  columns: Column[];
+  getContent: Function;
+  trProps?: any;
+  tdProps?: any;
+}
 
 /**
  * AsteriskTable component that renders item row and its columns
  * 
  * @class
  */
-class Item extends Component {
-  constructor(props) {
+class Item extends Component<ItemProps> {
+  constructor(props: ItemProps) {
     super(props);
   }
   /**
@@ -29,15 +28,15 @@ class Item extends Component {
    * @param {array} columns 
    * @param {array} tds 
    */
-  renderItemColumns(columns, tds) {
+  renderItemColumns(columns: Column[], tds: any[]) {
     let content,
         key,
-        column_has_children;
+        columnHasChildren;
     
     if (columns && columns.length) {
       return columns.map(column => {
-        column_has_children = column.columns && column.columns.length;
-        if (column_has_children) {
+        columnHasChildren = column.columns && column.columns.length;
+        if (columnHasChildren) {
           this.renderItemColumns(column.columns, tds);
         }
         else {
@@ -47,7 +46,7 @@ class Item extends Component {
 
           tds.push(<td className={column.class ? ' '+column.class : ''}
                        key={key}
-                       {...this.props.td_props}>
+                       {...this.props.tdProps}>
                        {content}
                   </td>);
         }
@@ -56,14 +55,14 @@ class Item extends Component {
   }
 
   render() {
-    let tds = [];
+    let tds: any[] = [];
 
     this.renderItemColumns(this.props.columns, tds);
 
     let row = (
       <tr key={'tr-row-'+this.props.item.id}
           id={this.props.item.id}
-          {...this.props.tr_props}>
+          {...this.props.trProps}>
         {tds}
       </tr>
     );
@@ -71,13 +70,5 @@ class Item extends Component {
     return row;
   }
 }
-
-Item.propTypes = {
-  item: PropTypes.object,
-  tr_props: PropTypes.object,
-  td_props: PropTypes.object,
-  columns: PropTypes.array,
-  getContent: PropTypes.func
-};
 
 export default Item;

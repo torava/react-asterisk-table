@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, {Component, ReactNode, ComponentClass} from 'react';
 import Item from './Item';
 import renderColumns from './ColumnIterator';
 import renderColumn from './ColumnRenderer';
-import PropTypes from 'prop-types';
 import _ from 'lodash';
 import './index.css';
+import { Column, Id } from './types';
 
 /**
  * @typedef Column
@@ -27,14 +27,43 @@ import './index.css';
  * @returns {array} resolved items
  */
 
+ /**
+ * @typedef AsteriskTableProps
+ * @property {array} items - table items
+ * @property {array} columns - table columns
+ * @property {object} [table_props] - props to append to table tag
+ * @property {object} [Item=Item] - custom row item
+ * @property {resolveItems} [resolveItems] - function for resolving items
+ * @property {renderColumns} [renderColumns=renderColumns] - function for rendering thead content
+ * @property {onMount} [onMount] - function to be called on component mount with component as param
+ */
+
+export interface AsteriskTableProps {
+  columns: any[];
+  items: any[];
+  onMount?: Function;
+  renderColumns?: Function;
+  renderColumn?: Function;
+  resolveItems?: Function;
+  Item?: ComponentClass<any>;
+  tableProps?: any;
+  columnProps?: any;
+  onColumnTitleClick?: Function;
+}
+
 /**
  * Extendable React table component
  * 
- * @property {props} props
+ * @property {AsteriskTableProps} props
  * @class
  */
-class AsteriskTable extends Component {
-  constructor(props) {
+class AsteriskTable extends Component<AsteriskTableProps> {
+  public static defaultProps = {
+    renderColumns,
+    renderColumn,
+    Item
+  }
+  constructor(props: AsteriskTableProps) {
     super(props);
 
     this.getContent = this.getContent.bind(this);
@@ -55,7 +84,7 @@ class AsteriskTable extends Component {
    * @param {Column} column 
    * @returns {string} value
    */
-  getValue(item, column) {
+  getValue(item: any, column: Column) {
     if (!item || !column) {
       return;
     }
@@ -80,14 +109,14 @@ class AsteriskTable extends Component {
    * @param {Column} column 
    * @returns {string} content
    */
-  getContent(item, column) {
+  getContent(item: any, column: Column) {
     let value = this.getValue(item, column);
     let content = typeof column.formatter == 'function' && column.formatter(value, item) || value;
     return content;
   }
-  getColumnById(id) {
+  getColumnById(id: Id) {
     let found_column;
-    const find = columns => columns.forEach(column => {
+    const find = (columns: Column[]) => columns.forEach((column: Column) => {
       if (column.id === id) {
         found_column = column;
       }
@@ -99,17 +128,17 @@ class AsteriskTable extends Component {
     return found_column;
   }
   render() {
-    let rendered_columns = this.props.renderColumns(this.props);
+    const {renderColumns, resolveItems, Item, items} = this.props;
+    const renderedColumns = renderColumns(this.props);
+    const TableItem = Item;
 
-    let TableItem = this.props.Item;
-
-    let items = this.props.resolveItems ? this.props.resolveItems(this.props.items) : this.props.items;
+    let resolvedItems = this.props.resolveItems ? _.memoize((items) => resolveItems(items))(items) : this.props.items;
 
     return (
-      <table className="asterisk-table" {...this.props.table_props}>
-        {rendered_columns}
+      <table className="asterisk-table" {...this.props.tableProps}>
+        {renderedColumns}
         <tbody>
-          {items && items.map((item, index) =>
+          {resolvedItems && resolvedItems.map((item: any, index: number) =>
             <TableItem
               {...this.props}
               key={item.id}
@@ -124,32 +153,5 @@ class AsteriskTable extends Component {
     );
   }
 }
-
-/**
- * @typedef props
- * @property {array} items - table items
- * @property {array} columns - table columns
- * @property {object} [table_props] - props to append to table tag
- * @property {object} [Item=Item] - custom row item
- * @property {resolveItems} [resolveItems] - function for resolving items
- * @property {renderColumns} [renderColumns=renderColumns] - function for rendering thead content
- * @property {onMount} [onMount] - function to be called on component mount with component as param
- */
-
-AsteriskTable.propTypes = {
-  items: PropTypes.array,
-  columns: PropTypes.array,
-  table_props: PropTypes.object,
-  Item: PropTypes.object,
-  resolveItems: PropTypes.func,
-  renderColumns: PropTypes.func,
-  onMount: PropTypes.func
-};
-
-AsteriskTable.defaultProps = {
-  renderColumn,
-  renderColumns,
-  Item
-};
 
 export default AsteriskTable;

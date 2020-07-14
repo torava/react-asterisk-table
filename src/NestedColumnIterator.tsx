@@ -2,8 +2,9 @@
  * @module NestedColumnIterator
  */
 
-import React from 'react';
+import React, {ReactElement} from 'react';
 import './NestedColumnIterator.css';
+import { AsteriskTableProps } from '.';
 
 /**
  * AsteriskTable function that iterates nested columns to be rendered to thead.
@@ -11,20 +12,20 @@ import './NestedColumnIterator.css';
  * 
  * @param {props} props 
  */
-function renderColumns(props) {
-  let cols = [];
-  let content = [];
+function renderColumns(props: AsteriskTableProps) {
+  let cols: ReactElement[] = [];
+  let content: ReactElement[][] = [];
 
-  function renderNested(columns, content, depth, cols) {
+  function renderNested(columns: any[], content: ReactElement[][], cols: ReactElement[], depth: number = 0) {
     let count,
         count2 = 0,
         rowspan;
 
-    columns && columns.visible !== false && columns.map(column => {
+    columns && columns.map(column => {
       count = 0;
       rowspan = 1;
       if (column.columns) {
-        count = Math.max(renderNested(column.columns, content, depth+1, cols), column.columns.length);
+        count = Math.max(renderNested(column.columns, content, cols, depth+1), column.columns.length);
       }
       else {
         rowspan = depth;
@@ -32,8 +33,8 @@ function renderColumns(props) {
       }
       if (!content[depth]) content[depth] = [];
       content[depth].push(props.renderColumn(column, {...props,
-        column_props: {
-          ...props.column_props,
+        columnProps: {
+          ...props.columnProps,
           colSpan: count || 1,
           rowSpan: rowspan,
           className: depth === 0 && column.columns ? 'parent no-action' : null,
@@ -45,7 +46,7 @@ function renderColumns(props) {
     return count2;
   }
 
-  renderNested(props.columns, content, 0, cols);
+  renderNested(props.columns, content, cols);
 
   return [
     <colgroup key="colgroup">

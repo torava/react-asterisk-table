@@ -19,7 +19,7 @@ export default class FlatTreeDemo extends Component {
       items,
       child_view_items,
       page: 0,
-      items_per_page: 100
+      items_per_page: 1000
     };
 
     this.table_ref = React.createRef();

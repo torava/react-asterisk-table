@@ -4,6 +4,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Column } from './types';
+import { AsteriskTableProps } from '.';
 
 /**
  * AsteriskTable function that returns column
@@ -11,19 +13,14 @@ import PropTypes from 'prop-types';
  * @param {Column} column
  * @param {props} props 
  */
-function renderColumn(column, props) {
+function renderColumn(column: Column, props: AsteriskTableProps) {
   return (
-    <th {...props.column_props}
+    <th {...props.columnProps}
         key={column.id}
         onClick={event => props.onColumnTitleClick && props.onColumnTitleClick(event, column)}>
       {column.label}
     </th>
   );
 }
-
-renderColumn.propTypes = {
-  column_props: PropTypes.object,
-  onColumnTitleClick: PropTypes.func
-};
 
 export default renderColumn;

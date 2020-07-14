@@ -1,6 +1,6 @@
 import React from 'react';
 import {mount} from 'enzyme';
-import AsteriskTable from '..';
+import AsteriskTable from '.';
 import expect from 'expect';
 
 const columns = [{

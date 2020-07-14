@@ -204,9 +204,6 @@ export default class FlatTreeDemo extends Component {
       }
     ];
   }
-  getItems() {
-    return ;
-  }
   render() {
     return <div>
       <h2>Flat Tree</h2>
@@ -214,7 +211,7 @@ export default class FlatTreeDemo extends Component {
                  columns={this.getColumns()}
                  items={this.state.items}
                  flat={true}
-                 toggle_all_columns_button={false}
+                 toggleAllColumnsButton={false}
                  renderColumns={renderColumns}/>
     </div>;
   }

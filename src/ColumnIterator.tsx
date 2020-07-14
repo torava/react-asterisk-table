@@ -1,4 +1,5 @@
 import React from 'react';
+import { AsteriskTableProps } from '.';
 
 /**
  * AsteriskTable function that iterates columns to be rendered to thead
@@ -7,7 +8,7 @@ import React from 'react';
  * @function
  * @param {props} props
  */
-function renderColumns(props) {
+function renderColumns(props: AsteriskTableProps) {
   let cols = props.columns.map(column => (
                                       <col key={'col-'+column.id}
                                            style={column.style}/>
