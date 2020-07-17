@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: index.js</title>
+    <title>JSDoc: Source: index.tsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: index.js</h1>
+    <h1 class="page-title">Source: index.tsx</h1>
 
     
 
@@ -26,13 +26,13 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React, {Component} from 'react';
+            <pre class="prettyprint source linenums"><code>import React, {Component, ReactNode, ComponentClass} from 'react';
 import Item from './Item';
 import renderColumns from './ColumnIterator';
 import renderColumn from './ColumnRenderer';
-import PropTypes from 'prop-types';
 import _ from 'lodash';
 import './index.css';
+import { Column, Id } from './types';
 
 /**
  * @typedef Column
@@ -55,14 +55,43 @@ import './index.css';
  * @returns {array} resolved items
  */
 
+ /**
+ * @typedef AsteriskTableProps
+ * @property {array} items - table items
+ * @property {array} columns - table columns
+ * @property {object} [table_props] - props to append to table tag
+ * @property {object} [Item=Item] - custom row item
+ * @property {resolveItems} [resolveItems] - function for resolving items
+ * @property {renderColumns} [renderColumns=renderColumns] - function for rendering thead content
+ * @property {onMount} [onMount] - function to be called on component mount with component as param
+ */
+
+export interface AsteriskTableProps {
+  columns: any[];
+  items: any[];
+  onMount?: Function;
+  renderColumns?: Function;
+  renderColumn?: Function;
+  resolveItems?: Function;
+  Item?: ComponentClass&lt;any>;
+  tableProps?: any;
+  columnProps?: any;
+  onColumnTitleClick?: Function;
+}
+
 /**
  * Extendable React table component
  * 
- * @property {props} props
+ * @property {AsteriskTableProps} props
  * @class
  */
-class AsteriskTable extends Component {
-  constructor(props) {
+class AsteriskTable extends Component&lt;AsteriskTableProps> {
+  public static defaultProps = {
+    renderColumns,
+    renderColumn,
+    Item
+  }
+  constructor(props: AsteriskTableProps) {
     super(props);
 
     this.getContent = this.getContent.bind(this);
@@ -83,7 +112,7 @@ class AsteriskTable extends Component {
    * @param {Column} column 
    * @returns {string} value
    */
-  getValue(item, column) {
+  getValue(item: any, column: Column) {
     if (!item || !column) {
       return;
     }
@@ -108,14 +137,14 @@ class AsteriskTable extends Component {
    * @param {Column} column 
    * @returns {string} content
    */
-  getContent(item, column) {
+  getContent(item: any, column: Column) {
     let value = this.getValue(item, column);
     let content = typeof column.formatter == 'function' &amp;&amp; column.formatter(value, item) || value;
     return content;
   }
-  getColumnById(id) {
+  getColumnById(id: Id) {
     let found_column;
-    const find = columns => columns.forEach(column => {
+    const find = (columns: Column[]) => columns.forEach((column: Column) => {
       if (column.id === id) {
         found_column = column;
       }
@@ -127,17 +156,17 @@ class AsteriskTable extends Component {
     return found_column;
   }
   render() {
-    let rendered_columns = this.props.renderColumns(this.props);
+    const {renderColumns, resolveItems, Item, items} = this.props;
+    const renderedColumns = renderColumns(this.props);
+    const TableItem = Item;
 
-    let TableItem = this.props.Item;
-
-    let items = this.props.resolveItems ? this.props.resolveItems(this.props.items) : this.props.items;
+    let resolvedItems = this.props.resolveItems ? _.memoize((items) => resolveItems(items))(items) : this.props.items;
 
     return (
-      &lt;table className="asterisk-table" {...this.props.table_props}>
-        {rendered_columns}
+      &lt;table className="asterisk-table" {...this.props.tableProps}>
+        {renderedColumns}
         &lt;tbody>
-          {items &amp;&amp; items.map((item, index) =>
+          {resolvedItems &amp;&amp; resolvedItems.map((item: any, index: number) =>
             &lt;TableItem
               {...this.props}
               key={item.id}
@@ -153,33 +182,6 @@ class AsteriskTable extends Component {
   }
 }
 
-/**
- * @typedef props
- * @property {array} items - table items
- * @property {array} columns - table columns
- * @property {object} [table_props] - props to append to table tag
- * @property {object} [Item=Item] - custom row item
- * @property {resolveItems} [resolveItems] - function for resolving items
- * @property {renderColumns} [renderColumns=renderColumns] - function for rendering thead content
- * @property {onMount} [onMount] - function to be called on component mount with component as param
- */
-
-AsteriskTable.propTypes = {
-  items: PropTypes.array,
-  columns: PropTypes.array,
-  table_props: PropTypes.object,
-  Item: PropTypes.object,
-  resolveItems: PropTypes.func,
-  renderColumns: PropTypes.func,
-  onMount: PropTypes.func
-};
-
-AsteriskTable.defaultProps = {
-  renderColumn,
-  renderColumns,
-  Item
-};
-
 export default AsteriskTable;</code></pre>
         </article>
     </section>
@@ -190,13 +192,13 @@ export default AsteriskTable;</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-ColumnRenderer.html">ColumnRenderer</a></li><li><a href="module-Item.html">Item</a></li><li><a href="module-NestedColumnIterator.html">NestedColumnIterator</a></li><li><a href="module-Sortable.html">Sortable</a></li><li><a href="module-SortableColumnRenderer.html">SortableColumnRenderer</a></li><li><a href="module-Tree.html">Tree</a></li></ul><h3>Classes</h3><ul><li><a href="AsteriskTable.html">AsteriskTable</a></li><li><a href="module-Item-Item.html">Item</a></li><li><a href="module-Sortable-Sortable.html">Sortable</a></li><li><a href="module-Tree-Tree.html">Tree</a></li><li><a href="TreeItem.html">TreeItem</a></li></ul><h3>Global</h3><ul><li><a href="global.html#onMount">onMount</a></li><li><a href="global.html#renderColumns">renderColumns</a></li><li><a href="global.html#resolveItems">resolveItems</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AsteriskTable.html">AsteriskTable</a></li><li><a href="Item.html">Item</a></li><li><a href="sortable-Sortable.html">Sortable</a></li><li><a href="TreeItem.html">TreeItem</a></li><li><a href="tree-Tree.html">Tree</a></li></ul><h3>Global</h3><ul><li><a href="global.html#renderColumn">renderColumn</a></li><li><a href="global.html#renderColumns">renderColumns</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Fri Oct 18 2019 12:08:30 GMT+0300 (Eastern European Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Fri Jul 17 2020 10:12:05 GMT+0300 (GMT+03:00)
 </footer>
 
 <script> prettyPrint(); </script>

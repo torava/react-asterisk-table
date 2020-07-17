@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: SortableColumnRenderer.tsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,44 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: SortableColumnRenderer.tsx</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module SortableColumnRenderer
+ */
 
+import React from 'react';
+import './SortableColumnRenderer.css';
+import { Column } from './types';
+import { SortableTableProps } from './Sortable';
 
-    <h3> </h3>
+/**
+ * AsteriskTable function that returns sortable column
+ * 
+ * @param {Column} column
+ * @param {props} props 
+ */
+function renderColumn(column: Column, props: SortableTableProps) {
+  return (
+    &lt;th {...props.columnProps}
+        key={column.id}
+        onClick={event => props.onColumnTitleClick &amp;&amp; props.onColumnTitleClick(event, column)}>
+      {column.label}
+      &lt;span className={'column-order '+(props.columnOrders &amp;&amp; props.columnOrders[column.id] || '')}>&lt;/span>
+    &lt;/th>
+  );
+}
 
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+export default renderColumn;</code></pre>
+        </article>
+    </section>
 
 
 

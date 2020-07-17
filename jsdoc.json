@@ -7,9 +7,15 @@
       ".git",
       "node_modules"
     ],
-    "includePattern": ".+\\.js(x|doc)?$"
+    "includePattern": ".+\\.[j|t]s(x|doc)?$"
   },
-  "plugins": ["plugins/markdown"],
+  "plugins": ["plugins/markdown", "jsdoc-plugin-typescript", "node_modules/jsdoc-babel"],
+  "babel": {
+    "extensions": ["js", "es6", "jsx", "ts", "tsx"]
+  },
+  "typescript": {
+    "moduleRoot": "src"
+  },
   "opts": {
     "encoding": "utf8",
     "recurse": true,

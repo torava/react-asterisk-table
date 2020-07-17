@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: TreeItem.js</title>
+    <title>JSDoc: Source: TreeItem.tsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: TreeItem.js</h1>
+    <h1 class="page-title">Source: TreeItem.tsx</h1>
 
     
 
@@ -27,8 +27,21 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import './TreeItem.css';
+import { ItemProps } from './Item';
+import { Id } from './types';
+
+interface TreeItemProps extends ItemProps {
+  items: any[];
+  flat: boolean;
+  childrenKey: string;
+  toggleChildren: Function;
+  expandedItems: Record&lt;Id, boolean>;
+  childView: Function;
+  depth: number;
+  resolveItems: Function;
+  parent: any;
+}
 
 /**
  * AsteriskTable component that renders item's row, columns and possible children or child view.
@@ -37,8 +50,9 @@ import './TreeItem.css';
  * 
  * @class
  */
-class TreeItem extends Component {
-  constructor(props) {
+class TreeItem extends Component&lt;TreeItemProps> {
+  itemHasChildren: boolean;
+  constructor(props: TreeItemProps) {
     super(props);
   }
   /**
@@ -47,15 +61,15 @@ class TreeItem extends Component {
    * @param {array} columns 
    * @param {array} tds 
    */
-  renderItemColumns(columns, tds) {
+  renderItemColumns(columns: any[], tds: React.ReactElement[]) {
     let content,
         key,
-        column_has_children,
+        columnHasChildren,
         child;
     
     if (columns &amp;&amp; columns.length) {
       return columns.map((column, i) => {
-        column_has_children = column.columns &amp;&amp; column.columns.length;
+        columnHasChildren = column.columns &amp;&amp; column.columns.length;
         content = this.props.getContent(this.props.item, column);
 
         key = 'td-row-'+this.props.item.id+'-column-'+column.id;
@@ -65,7 +79,7 @@ class TreeItem extends Component {
           if (this.props.childView &amp;&amp; typeof this.props.childView === 'function' || this.itemHasChildren) {
             child = &lt;a href="#"
                        onClick={event => this.props.toggleChildren(event, this.props.item.id)}
-                       className={'expand '+(this.props.expanded_items[this.props.item.id] ? 'expanded' : 'closed')}>
+                       className={'expand '+(this.props.expandedItems[this.props.item.id] ? 'expanded' : 'closed')}>
                     &lt;/a>;
           }
           // else show blank column
@@ -77,14 +91,14 @@ class TreeItem extends Component {
           child = false;
         }
 
-        if (column_has_children) {
+        if (columnHasChildren) {
           this.renderItemColumns(column.columns, tds);
         }
         else {
           if (child) {
             tds.push(&lt;td key={key}
                          className={column.class}
-                         {...this.props.td_props}>
+                         {...this.props.tdProps}>
                 &lt;div style={{
                               paddingLeft: this.props.depth+'em'
                             }}>
@@ -106,13 +120,13 @@ class TreeItem extends Component {
 
   render() {
     if (!this.props.flat) {
-      this.itemHasChildren = this.props.children_key &amp;&amp; this.props.item[this.props.children_key] &amp;&amp; this.props.item[this.props.children_key].length;
+      this.itemHasChildren = this.props.childrenKey &amp;&amp; this.props.item[this.props.childrenKey] &amp;&amp; this.props.item[this.props.childrenKey].length;
     }
     else {
       this.itemHasChildren = this.props.items.find(item => item.parent_id === this.props.item.id);
     }
     
-    let tds = [];
+    let tds: React.ReactElement[] = [];
 
     this.renderItemColumns(this.props.columns, tds);
 
@@ -120,16 +134,16 @@ class TreeItem extends Component {
       &lt;tr key={'tr-row-'+this.props.item.id}
           id={this.props.item.id}
           data-parent={this.props.parent}
-          {...this.props.tr_props}>
+          {...this.props.trProps}>
         {tds}
       &lt;/tr>
     );
 
-    if (this.props.expanded_items[this.props.item.id] &amp;&amp; this.itemHasChildren) {
+    if (this.props.expandedItems[this.props.item.id] &amp;&amp; this.itemHasChildren) {
       let children;
-      let renderable_children = [];
-      if (!this.props.flat &amp;&amp; this.props.children_key) {
-        children = this.props.item[this.props.children_key];
+      let renderableChildren = [];
+      if (!this.props.flat &amp;&amp; this.props.childrenKey) {
+        children = this.props.item[this.props.childrenKey];
       }
       else {
         children = this.props.items;
@@ -139,21 +153,19 @@ class TreeItem extends Component {
       }
 
       if (children &amp;&amp; children.length) {
-        renderable_children = children.map((item, index) => {
+        renderableChildren = children.map((item: any) => {
           return &lt;TreeItem
                       {...this.props}
                       key={item.id}
-                      index={index}
                       parent={this.props.item}
-                      className={(this.props.className ? this.props.className+' ' : '')+this.props.item.id}
                       item={item}
                       depth={this.props.depth+1}
                     />;
         });
       }
-      return [row].concat(renderable_children);
+      return [row].concat(renderableChildren);
     }
-    else if (this.props.expanded_items[this.props.item.id] &amp;&amp; this.props.childView) {
+    else if (this.props.expandedItems[this.props.item.id] &amp;&amp; this.props.childView) {
       return [
         row, 
         (&lt;tr key={'child-view-'+this.props.item.id}
@@ -171,25 +183,6 @@ class TreeItem extends Component {
   }
 }
 
-TreeItem.propTypes = {
-  item: PropTypes.object,
-  items: PropTypes.array,
-  tr_props: PropTypes.string,
-  td_props: PropTypes.string,
-  flat: PropTypes.bool,
-  children_key: PropTypes.string,
-  expanded_items: PropTypes.object,
-  parent: PropTypes.object,
-  columns: PropTypes.array,
-  className: PropTypes.string,
-  childView: PropTypes.func,
-  getContent: PropTypes.func,
-  toggleChildren: PropTypes.func,
-  filter: PropTypes.func,
-  resolveItems: PropTypes.func,
-  depth: PropTypes.number
-};
-
 export default TreeItem;</code></pre>
         </article>
     </section>
@@ -200,13 +193,13 @@ export default TreeItem;</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-ColumnRenderer.html">ColumnRenderer</a></li><li><a href="module-Item.html">Item</a></li><li><a href="module-NestedColumnIterator.html">NestedColumnIterator</a></li><li><a href="module-Sortable.html">Sortable</a></li><li><a href="module-SortableColumnRenderer.html">SortableColumnRenderer</a></li><li><a href="module-Tree.html">Tree</a></li></ul><h3>Classes</h3><ul><li><a href="AsteriskTable.html">AsteriskTable</a></li><li><a href="module-Item-Item.html">Item</a></li><li><a href="module-Sortable-Sortable.html">Sortable</a></li><li><a href="module-Tree-Tree.html">Tree</a></li><li><a href="TreeItem.html">TreeItem</a></li></ul><h3>Global</h3><ul><li><a href="global.html#onMount">onMount</a></li><li><a href="global.html#renderColumns">renderColumns</a></li><li><a href="global.html#resolveItems">resolveItems</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AsteriskTable.html">AsteriskTable</a></li><li><a href="Item.html">Item</a></li><li><a href="sortable-Sortable.html">Sortable</a></li><li><a href="TreeItem.html">TreeItem</a></li><li><a href="tree-Tree.html">Tree</a></li></ul><h3>Global</h3><ul><li><a href="global.html#renderColumn">renderColumn</a></li><li><a href="global.html#renderColumns">renderColumns</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Fri Oct 18 2019 12:08:30 GMT+0300 (Eastern European Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Fri Jul 17 2020 10:12:05 GMT+0300 (GMT+03:00)
 </footer>
 
 <script> prettyPrint(); </script>

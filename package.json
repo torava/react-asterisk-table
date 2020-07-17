@@ -1,6 +1,6 @@
 {
   "name": "react-asterisk-table",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "react-asterisk-table React component",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -18,7 +18,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "docs": "jsdoc -c ./jsdoc.json",
+    "docs": "./node_modules/jsdoc/jsdoc.js -c ./jsdoc.json",
     "docs:show": "open out/index.html"
   },
   "peerDependencies": {
@@ -50,6 +50,9 @@
     "eslint-plugin-react-hooks": "^2.5.1",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.9.0",
+    "jsdoc": "^3.6.4",
+    "jsdoc-babel": "^0.5.0",
+    "jsdoc-plugin-typescript": "^2.0.5",
     "nwb": "^0.25.2",
     "react": "^16.13.1",
     "react-test-renderer": "^16.13.1",
