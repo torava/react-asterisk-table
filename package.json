@@ -1,11 +1,13 @@
 {
   "name": "react-asterisk-table",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "react-asterisk-table React component",
   "main": "lib/index.js",
   "module": "es/index.tsx",
   "files": [
-    "dist"
+    "lib",
+    "es",
+    "umd"
   ],
   "scripts": {
     "build": "npm run build:js && npm run build:ts",
