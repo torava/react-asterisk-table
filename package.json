@@ -1,6 +1,6 @@
 {
   "name": "react-asterisk-table",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "react-asterisk-table React component",
   "main": "lib/index.js",
   "module": "es/index.tsx",
@@ -12,7 +12,7 @@
   "scripts": {
     "build": "npm run build:js && npm run build:ts",
     "build:js": "nwb build-react-component --copy-files",
-    "build:ts": "tsc",
+    "build:ts": "tsc && tsc --project ./tsconfig.build.json",
     "clean": "nwb clean-module && nwb clean-demo",
     "prepublishOnly": "npm run build",
     "start": "nwb serve-react-demo",
