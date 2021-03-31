@@ -6,6 +6,7 @@ import { Id } from './types';
 interface TreeItemProps extends ItemProps {
   items: any[];
   flat: boolean;
+  parentIdKey: string;
   childrenKey: string;
   toggleChildren: Function;
   expandedItems: Record<Id, boolean>;
@@ -44,7 +45,7 @@ class TreeItem extends Component<TreeItemProps> {
         columnHasChildren = column.columns && column.columns.length;
         content = this.props.getContent(this.props.item, column);
 
-        key = 'td-row-'+this.props.item.id+'-column-'+column.id;
+        key = `td-row-${this.props.item.id}-column-${column.id}`;
 
         if (i == 0) {
           // if item has children, show expandable arrow in first column
@@ -95,14 +96,14 @@ class TreeItem extends Component<TreeItemProps> {
       this.itemHasChildren = this.props.childrenKey && this.props.item[this.props.childrenKey] && this.props.item[this.props.childrenKey].length;
     }
     else {
-      this.itemHasChildren = this.props.items.find(item => item.parent_id === this.props.item.id);
+      this.itemHasChildren = this.props.items.find(item => item[this.props.parentIdKey] === this.props.item.id);
     }
     
-    let tds: React.ReactElement[] = [];
+    const tds: React.ReactElement[] = [];
 
     this.renderItemColumns(this.props.columns, tds);
 
-    let row = (
+    const row = (
       <tr key={'tr-row-'+this.props.item.id}
           id={this.props.item.id}
           data-parent={this.props.parent}
